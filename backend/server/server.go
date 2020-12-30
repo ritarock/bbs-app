@@ -3,7 +3,9 @@ package server
 import (
 	model "backend/models"
 	"fmt"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,6 +13,26 @@ const VERSION = "v0"
 
 func Run() {
 	engine := gin.Default()
+	engine.Use(cors.New(cors.Config{
+		AllowMethods: []string{
+			"POST",
+			"GET",
+			"PUT",
+			"DELETE",
+		},
+		AllowHeaders: []string{
+			"Access-Control-Allow-Headers",
+			"Content-Type",
+			"Content-Length",
+			"Accept-Encoding",
+			"X-CSRF-Token",
+			"Authorization",
+		},
+		AllowOrigins: []string{
+			"http://localhost:3000",
+		},
+		MaxAge: 24 * time.Hour,
+	}))
 	model.DbInit()
 
 	router := engine.Group("service")
