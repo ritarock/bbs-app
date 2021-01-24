@@ -26,3 +26,4 @@ services:
     depends_on: 
       - db
     command: go run main.go
+    
