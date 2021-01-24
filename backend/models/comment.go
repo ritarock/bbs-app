@@ -1,16 +1,12 @@
 package models
 
-import (
-	"strconv"
-
-	"github.com/jinzhu/gorm"
-)
+import "strconv"
 
 type Comment struct {
-	gorm.Model
-	Body string `gorm:"type:text"`
+	Id   uint   `json:"id"`
+	Body string `json:"body"`
 
-	ThemeId int
+	ThemeId int `json:"theme_id"`
 }
 
 func (c Comment) GetAll() []Comment {
@@ -26,8 +22,9 @@ func (c Comment) GetByThemeId(theme_id string) []Comment {
 	db := GormConnect()
 	defer db.Close()
 
+	to_int_theme_id, _ := strconv.Atoi(theme_id)
 	var comments []Comment
-	db.Where("theme_id = ?", theme_id).Find(&comments)
+	db.Where("theme_id = ?", to_int_theme_id).Find(&comments)
 	return comments
 }
 
@@ -36,7 +33,6 @@ func (c Comment) Create(theme_id string) {
 	defer db.Close()
 
 	to_int_theme_id, _ := strconv.Atoi(theme_id)
-
 	var comment = Comment{Body: c.Body, ThemeId: to_int_theme_id}
 	db.Create(&comment)
 }

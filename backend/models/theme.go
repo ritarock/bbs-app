@@ -1,16 +1,9 @@
 package models
 
-import (
-	"github.com/jinzhu/gorm"
-
-	_ "github.com/go-sql-driver/mysql"
-)
-
 type Theme struct {
-	gorm.Model
-	Name     string
-	Detail   string
-	Comments []Comment
+	Id     uint   `json:"id"`
+	Name   string `json:"name"`
+	Detail string `json:"detail"`
 }
 
 func (t Theme) GetAll() []Theme {
@@ -30,13 +23,13 @@ func (t Theme) Create() {
 	db.Create(&theme)
 }
 
-func (t Theme) Get(id string) Theme {
+func (t Theme) Read(id string) interface{} {
 	db := GormConnect()
 	defer db.Close()
 
-	var theme Theme
-	db.Where("id = ?", id).First(&theme)
-	return theme
+	result := db.First(&t, id)
+
+	return result.Value
 }
 
 func (t Theme) Update(id string) {
@@ -44,7 +37,7 @@ func (t Theme) Update(id string) {
 	defer db.Close()
 
 	var theme Theme
-	db.Where("id = ?", id).First(&theme)
+	db.First(&theme, id)
 	theme.Name = t.Name
 	theme.Detail = t.Detail
 	db.Save(&theme)
@@ -54,7 +47,5 @@ func (t Theme) Delete(id string) {
 	db := GormConnect()
 	defer db.Close()
 
-	var theme Theme
-	db.Where("id = ?", id).First(&theme)
-	db.Delete(&theme)
+	db.Delete(&t, id)
 }
