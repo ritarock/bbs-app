@@ -2,6 +2,7 @@
 
 ## backend
 REST API
+
 - golang
 - gorm
 - gin
@@ -12,7 +13,8 @@ $ docker-compose up
 ```
 
 ## frontend
-- Nuxt
+
+- Next.js
 - TypeScript
 
 ```bash
