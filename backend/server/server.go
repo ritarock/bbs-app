@@ -41,11 +41,15 @@ func Run() {
 	{
 		api := router.Group("v1")
 		{
-			api.GET("/themes", controller.Index)
-			api.POST("/themes", controller.Create)
-			api.GET("/themes/:id", controller.Read)
-			api.PUT("/themes/:id", controller.Update)
-			api.DELETE("/themes/:id", controller.Delete)
+			api.GET("/themes", controller.IndexThemes)
+			api.POST("/themes", controller.CreateThemes)
+			api.GET("/themes/:id", controller.ReadThemes)
+			api.PUT("/themes/:id", controller.UpdateThemes)
+			api.DELETE("/themes/:id", controller.DeleteThemes)
+		}
+		{
+			api.GET("/comments", controller.IndexComments)
+			api.POST("/themes/:theme_id/comments", controller.CreateComments)
 		}
 	}
 
