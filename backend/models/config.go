@@ -25,4 +25,5 @@ func DbInit() {
 	db := GormConnect()
 	defer db.Close()
 	db.AutoMigrate(&Theme{})
+	db.AutoMigrate(&Comment{})
 }

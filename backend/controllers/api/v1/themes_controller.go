@@ -9,7 +9,7 @@ import (
 
 var INDEX_URL = "/service/v1/themes"
 
-func Index(c *gin.Context) {
+func IndexThemes(c *gin.Context) {
 	theme := models.Theme{}
 
 	c.JSON(200, gin.H{
@@ -17,7 +17,7 @@ func Index(c *gin.Context) {
 	})
 }
 
-func Create(c *gin.Context) {
+func CreateThemes(c *gin.Context) {
 	theme := models.Theme{}
 
 	err := c.ShouldBindJSON(&theme)
@@ -31,15 +31,17 @@ func Create(c *gin.Context) {
 		INDEX_URL)
 }
 
-func Read(c *gin.Context) {
+func ReadThemes(c *gin.Context) {
 	theme := models.Theme{}
+	comment := models.Comment{}
 
 	c.JSON(200, gin.H{
-		"theme": theme.Read(c.Param("id")),
+		"theme":    theme.Read(c.Param("id")),
+		"comments": comment.GetByThemeId(c.Param("id")),
 	})
 }
 
-func Update(c *gin.Context) {
+func UpdateThemes(c *gin.Context) {
 	theme := models.Theme{}
 
 	err := c.ShouldBindJSON(&theme)
@@ -51,7 +53,7 @@ func Update(c *gin.Context) {
 		INDEX_URL)
 }
 
-func Delete(c *gin.Context) {
+func DeleteThemes(c *gin.Context) {
 	theme := models.Theme{}
 
 	theme.Delete(c.Param("id"))
