@@ -2,7 +2,7 @@ package models
 
 type Theme struct {
 	Id     uint   `json:"id"`
-	Name   string `json:"name"`
+	Title  string `json:"title"`
 	Detail string `json:"detail"`
 }
 
@@ -19,7 +19,7 @@ func (t Theme) Create() {
 	db := GormConnect()
 	defer db.Close()
 
-	var theme = Theme{Name: t.Name, Detail: t.Detail}
+	var theme = Theme{Title: t.Title, Detail: t.Detail}
 	db.Create(&theme)
 }
 
@@ -38,7 +38,7 @@ func (t Theme) Update(id string) {
 
 	var theme Theme
 	db.First(&theme, id)
-	theme.Name = t.Name
+	theme.Title = t.Title
 	theme.Detail = t.Detail
 	db.Save(&theme)
 }

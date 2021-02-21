@@ -41,6 +41,9 @@ func Run() {
 	{
 		api := router.Group("v1")
 		{
+			api.GET("/healthcheck", controller.HealthCheck)
+		}
+		{
 			api.GET("/themes", controller.IndexThemes)
 			api.POST("/themes", controller.CreateThemes)
 			api.GET("/themes/:id", controller.ReadThemes)
