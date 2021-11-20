@@ -1,13 +1,11 @@
-FROM golang:1.15.6-alpine3.12
+FROM golang:1.17.3-buster AS builder
 
-ENV ENV GO11MODULE=on
+WORKDIR /work
 
-WORKDIR /app
+COPY . /work
+RUN cd cmd/bbs-app/ && go install
 
-COPY . /app
-
-RUN apk update && \
-    apk add --no-cache git && \
-    go mod download
-
+FROM golang:1.17.3-buster
+COPY --from=builder /go/bin/bbs-app /go/bin/bbs-app
 EXPOSE 8080
+CMD ["/go/bin/bbs-app"]

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"backend/server"
+	"ritarock/bbs-app/backend/internal/server"
 )
 
 func main() {

@@ -13,9 +13,10 @@ services:
       - 3306:3306
     volumes:
       - ./docker/database/mysql:/var/lib/mysql
-  app:
-    build: .
-    ports:
-      - 8080:8080
+  migration:
+    build:
+      context: ./docker/migration
+    volumes:
+      - ./migrations:/work
     depends_on:
       - db
