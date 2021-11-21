@@ -50,10 +50,10 @@ func createTopics(c echo.Context) error {
 
 func readTopic(c echo.Context) error {
 	id := c.Param("id")
-	topic := model.Topic{
+	t := model.Topic{
 		Id: id,
 	}
-	topic.Read()
+	topic := t.Read()
 	var response struct {
 		Code int `json:"code"`
 		Data []types.Topic
