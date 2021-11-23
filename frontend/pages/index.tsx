@@ -1,14 +1,9 @@
-import {GetServerSideProps} from "next"
-import Link from "next/link"
-import {SubmitHandler, useForm} from "react-hook-form"
+import { GetServerSideProps } from 'next'
+import Link from 'next/link'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { Topic } from '../interfaces'
 
-const BASE_TOPIC_URL = "http://localhost:8080/backend/topics"
-
-type Topic = {
-  id: string
-  title: string
-  detail: string
-}
+const BASE_TOPIC_URL = 'http://localhost:8080/backend/topics'
 
 type Inputs = {
   title: string
@@ -16,22 +11,23 @@ type Inputs = {
 }
 
 export default function Home({
-  index
+  index,
 }: {
   index: {
     code: number
     data: Topic[]
   }
 }) {
-  const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = data => createTopic(data)
+  const { register, handleSubmit } = useForm<Inputs>()
+  const onSubmit: SubmitHandler<Inputs> = (data) => createTopic(data)
   return (
     <>
       <div>
         <h1>Topic</h1>
         <ul>
-          {index.data.map(data => {
+          {index.data.map((data) => {
             return (
+              // eslint-disable-next-line react/jsx-key
               <li>
                 <Link href={`/topics/${data.id}`}>
                   <a>{data.title}</a>
@@ -44,15 +40,15 @@ export default function Home({
       <hr />
       <div>
         <h3>Create Topic</h3>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            Title :
-            <input {...register("title")} />
-            <br />
-            detail :
-            <input {...register("detail")} />
-            <br />
-            <input type="submit" value="create" />
-          </form>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          Title :
+          <input {...register('title')} />
+          <br />
+          detail :
+          <input {...register('detail')} />
+          <br />
+          <input type="submit" value="create" />
+        </form>
       </div>
     </>
   )
@@ -64,19 +60,19 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      index: data
-    }
+      index: data,
+    },
   }
 }
 
 export const createTopic = (data: Inputs) => {
-  const method = "POST"
+  const method = 'POST'
   const headers = {
-    "Content-type": "application/json"
+    'Content-type': 'application/json',
   }
   const body = JSON.stringify(data)
 
-  fetch(BASE_TOPIC_URL, {method, headers, body})
-    .then(response => response.text())
-    .then(result => console.log(result))
+  fetch(BASE_TOPIC_URL, { method, headers, body })
+    .then((response) => response.text())
+    .then((result) => console.log(result))
 }
