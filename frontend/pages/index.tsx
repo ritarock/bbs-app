@@ -1,85 +1,49 @@
-import { GetServerSideProps } from "next"
+import {GetServerSideProps} from "next"
 import Link from "next/link"
-import { useForm } from 'react-hook-form'
 
-const BACKEND_API_THEMES_BASE_PATH = "http://localhost:8080/service/v1/themes"
+const BASE_URL = "http://localhost:8080/backend/topics"
 
-type Theme = {
-    id: number
-    name: string
-    detail: string
+type Topic = {
+  id: string
+  title: string
+  detail: string
 }
 
 export default function Home({
-  indexData
+  index
 }: {
-  indexData : Theme[]
+  index: {
+    code: number
+    data: Topic[]
+  }
 }) {
-
-  const { register, handleSubmit } = useForm()
-  const onSubmit = (data: any) => CreateTheme(data) 
-
   return (
-    <div>
-      <h1>Theme</h1>
+    <>
       <div>
+        <h1>Topic</h1>
         <ul>
-          {indexData.map(data => {
+          {index.data.map(data => {
             return (
               <li>
-                <Link href={`/themes/${data.id}`}>
-                  <a>{data.name}</a>
+                <Link href={`/topics/${data.id}`}>
+                  <a>{data.title}</a>
                 </Link>
-                &nbsp;{data.detail}
               </li>
             )
           })}
         </ul>
       </div>
-
-      <hr />
-      <div>
-        <h3>Create Theme</h3>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          Theme:
-          <br />
-          <input name="name" ref={register} />
-          <br />
-          detail:
-          <br />
-          <textarea name="detail" ref={register} />
-          <br />
-          <input type="submit" value="CREATE" />
-        </form>
-      </div>
-    </div>
+    </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await fetch(BACKEND_API_THEMES_BASE_PATH)
+  const response = await fetch(BASE_URL)
   const data = await response.json()
-
-  console.log(data.themes)
 
   return {
     props: {
-      indexData: data.themes
+      index: data
     }
   }
-}
-
-export const CreateTheme = (data: any) => {
-  const headers = new Headers()
-  headers.append("Content-Type", "application/json")
-
-  const requestOptions = {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
-  }
-
-  fetch(BACKEND_API_THEMES_BASE_PATH, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
 }

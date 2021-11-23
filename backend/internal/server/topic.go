@@ -11,8 +11,8 @@ import (
 func readTopics(c echo.Context) error {
 	topics := model.ReadTopics()
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Topic
+		Code int           `json:"code"`
+		Data []types.Topic `json:"data"`
 	}
 	response.Code = 200
 	for _, topic := range topics {
@@ -35,8 +35,8 @@ func createTopics(c echo.Context) error {
 	id := topic.Create()
 
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Topic
+		Code int           `json:"code"`
+		Data []types.Topic `json:"data"`
 	}
 	response.Code = 200
 	response.Data = append(response.Data, types.Topic{
@@ -55,8 +55,8 @@ func readTopic(c echo.Context) error {
 	}
 	topic := t.Read()
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Topic
+		Code int           `json:"code"`
+		Data []types.Topic `json:"data"`
 	}
 	response.Code = 200
 	response.Data = append(response.Data, types.Topic(topic))
@@ -79,8 +79,8 @@ func updateTopic(c echo.Context) error {
 	topic.Update()
 
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Topic
+		Code int           `json:"code"`
+		Data []types.Topic `json:"data"`
 	}
 	response.Code = 200
 	response.Data = append(response.Data, types.Topic(topic))

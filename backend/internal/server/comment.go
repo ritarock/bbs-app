@@ -12,8 +12,8 @@ func readComments(c echo.Context) error {
 	topicId := c.Param("topic_id")
 	comments := model.ReadComments(topicId)
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Comment
+		Code int             `json:"code"`
+		Data []types.Comment `json:"data"`
 	}
 	response.Code = 200
 	for _, comment := range comments {
@@ -37,8 +37,8 @@ func creatComments(c echo.Context) error {
 	id := comment.Create(topicId)
 
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Comment
+		Code int             `json:"code"`
+		Data []types.Comment `json:"data"`
 	}
 	response.Code = 200
 	response.Data = append(response.Data, types.Comment{
@@ -58,8 +58,8 @@ func readComment(c echo.Context) error {
 	comment := cmt.Read()
 
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Comment
+		Code int             `json:"code"`
+		Data []types.Comment `json:"data"`
 	}
 	response.Code = 200
 	response.Data = append(response.Data, types.Comment(comment))
@@ -86,8 +86,8 @@ func updateComment(c echo.Context) error {
 	comment.Update()
 
 	var response struct {
-		Code int `json:"code"`
-		Data []types.Comment
+		Code int             `json:"code"`
+		Data []types.Comment `json:"data"`
 	}
 	response.Code = 200
 	response.Data = append(response.Data, types.Comment(comment))
