@@ -29,14 +29,14 @@ func GetCommentAll() ([]Comment, error) {
 	}
 
 	comments := make([]Comment, len(searched))
-	for _, comment := range searched {
-		comments = append(comments, Comment{
+	for i, comment := range searched {
+		comments[i] = Comment{
 			ID:        comment.ID,
 			Body:      comment.Body,
 			CreatedAt: comment.CreatedAt,
 			UpdatedAt: comment.UpdatedAt,
 			TopicId:   comment.TopicID,
-		})
+		}
 	}
 
 	return comments, nil
@@ -58,14 +58,14 @@ func GetCommentAllByTopic(topicId int) ([]Comment, error) {
 	}
 
 	comments := make([]Comment, len(searched))
-	for _, comment := range searched {
-		comments = append(comments, Comment{
+	for i, comment := range searched {
+		comments[i] = Comment{
 			ID:        comment.ID,
 			Body:      comment.Body,
 			CreatedAt: comment.CreatedAt,
 			UpdatedAt: comment.UpdatedAt,
 			TopicId:   comment.TopicID,
-		})
+		}
 	}
 
 	return comments, nil

@@ -21,7 +21,7 @@ func Run() {
 	e.POST("/backend/api/comments", createComment)
 	e.GET("/backend/api/comments/:id", getComment)
 	e.PUT("/backend/api/comments/:id", updateComment)
-	e.DELETE("/backend/api/commetns/:id", deleteComment)
+	e.DELETE("/backend/api/comments/:id", deleteComment)
 
 	e.GET("/backend/api/topics/:topicId/comments", getCommentsByTopic)
 

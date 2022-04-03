@@ -28,18 +28,18 @@ func GetTopicAll() ([]Topic, error) {
 		return nil, err
 	}
 
-	toipcs := make([]Topic, len(searched))
-	for _, topic := range searched {
-		toipcs = append(toipcs, Topic{
+	topics := make([]Topic, len(searched))
+	for i, topic := range searched {
+		topics[i] = Topic{
 			ID:        topic.ID,
 			Name:      topic.Name,
 			Detail:    topic.Detail,
 			CreatedAt: topic.CreatedAt,
 			UpdatedAt: topic.UpdatedAt,
-		})
+		}
 	}
 
-	return toipcs, nil
+	return topics, nil
 }
 
 func (t *Topic) Create() (*Topic, error) {
