@@ -10,6 +10,7 @@ func Run() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
 	e.GET("/backend/api/topics", getAllTopics)
 	e.POST("/backend/api/topics", createTopic)
