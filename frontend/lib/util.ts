@@ -1,4 +1,4 @@
-export const toTitleFormat = (t: Date) => {
+export const toDateFormat = (t: Date) => {
   const dt = new Date(t);
 
   return dt.getFullYear().toString() + "-" + ("0" + dt.getMonth()).slice(-2) +
