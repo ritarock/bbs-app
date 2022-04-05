@@ -2,10 +2,8 @@
 
 ## backend
 - Golang
-- web framework
-  - Echo
-- database
-  - sqlx
+- Echo
+- ent
 
 ```bash
 $ cd backend
