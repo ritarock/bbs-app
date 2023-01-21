@@ -1,0 +1,9 @@
+version: v1
+plugins:
+  - remote: buf.build/protocolbuffers/plugins/go
+    out: gen/v1/go
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/stephenh/plugins/ts-proto
+    out: web/gen/v1/ts
