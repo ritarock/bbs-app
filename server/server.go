@@ -20,7 +20,10 @@ func errorResponse(c *gin.Context, err error) {
 	})
 }
 
-func Run() {
+func setupRouter(
+	postHandler *postHandler,
+	commentHandler *commendHandler,
+) *gin.Engine {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -48,15 +51,6 @@ func Run() {
 		})
 	})
 
-	dbClient, err := db.Connection()
-	if err != nil {
-		panic(err)
-	}
-	defer dbClient.Close()
-
-	postHandler := newPostHandler(dbClient)
-	commentHandler := newCommendHandler(dbClient)
-
 	postV1 := r.Group("/backend/api/v1")
 	{
 		postV1.POST("/posts", postHandler.create)
@@ -76,5 +70,20 @@ func Run() {
 
 	r.GET("/backend/api/v1/topics/:id/comments", commentHandler.readAllByPost)
 
-	r.Run()
+	return r
+}
+
+func Run() {
+	dbClient, err := db.Connection()
+	if err != nil {
+		panic(err)
+	}
+	defer dbClient.Close()
+
+	postHandler := newPostHandler(dbClient)
+	commentHandler := newCommendHandler(dbClient)
+
+	r := setupRouter(postHandler, commentHandler)
+
+	r.Run(":8080")
 }

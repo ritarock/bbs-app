@@ -162,4 +162,5 @@ func (ch *commendHandler) readAllByPost(c *gin.Context) {
 			PostId:      searched.PostID,
 		})
 	}
+	c.JSON(ServerOK, response)
 }
