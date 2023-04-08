@@ -43,6 +43,7 @@ func (ch *commendHandler) create(c *gin.Context) {
 		Create().
 		SetPostID(postId).
 		SetContent(comment.Content).
+		SetCommentedAt(timeNow).
 		Save(ctx)
 	if err != nil {
 		errorResponse(c, err)
@@ -100,6 +101,7 @@ func (ch *commendHandler) update(c *gin.Context) {
 		UpdateOneID(id).
 		SetContent(comment.Content).
 		SetCommentedAt(comment.CommentedAt).
+		SetCommentedAt(timeNow).
 		SetPostID(postId).
 		Save(ctx)
 	if err != nil {

@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,8 @@ const (
 	ServerError = http.StatusInternalServerError
 	ServerOK    = http.StatusOK
 )
+
+var timeNow = time.Now()
 
 func errorResponse(c *gin.Context, err error) {
 	c.JSON(ServerError, map[string]any{

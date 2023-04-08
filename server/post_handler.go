@@ -35,6 +35,7 @@ func (ph *postHandler) create(c *gin.Context) {
 		Create().
 		SetTitle(post.Title).
 		SetContent(post.Content).
+		SetPostedAt(timeNow).
 		Save(context.Background())
 	if err != nil {
 		errorResponse(c, err)
@@ -84,7 +85,7 @@ func (ph *postHandler) update(c *gin.Context) {
 		UpdateOneID(id).
 		SetTitle(post.Title).
 		SetContent(post.Content).
-		SetPostedAt(post.PostedAt).
+		SetPostedAt(timeNow).
 		Save(context.Background())
 	if err != nil {
 		errorResponse(c, err)
