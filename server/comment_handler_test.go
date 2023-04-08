@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	COMMENT_URL                    = "/backend/api/v1/comments"
-	READ_UPDATE_DELETE_COMMENT_URL = "/backend/api/v1/comments/1"
-	READ_ALL_BY_POST_URL           = "/backend/api/v1/topics/1/comments"
+	CREATE_COMMENT_URL               = "/backend/api/v1/comments"
+	READ_UPDATE_DELETE_COMMENT_URL   = "/backend/api/v1/comments/1"
+	READ_ALL_BY_POST_FOR_COMMENT_URL = "/backend/api/v1/topics/1/comments"
 
 	CREATE_COMMENT_BODY = `{
 		"content": "test_content",
@@ -37,7 +37,7 @@ func TestCreateCommentRoute(t *testing.T) {
 	c, _ := gin.CreateTestContext(w)
 
 	body := strings.NewReader(CREATE_COMMENT_BODY)
-	c.Request, _ = http.NewRequest("POST", COMMENT_URL, body)
+	c.Request, _ = http.NewRequest("POST", CREATE_COMMENT_URL, body)
 	c.Request.Header.Add("Content-Type", "application/json")
 	router.ServeHTTP(w, c.Request)
 
@@ -134,7 +134,7 @@ func TestReadAllByPost(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	c.Request, _ = http.NewRequest("GET", READ_ALL_BY_POST_URL, nil)
+	c.Request, _ = http.NewRequest("GET", READ_ALL_BY_POST_FOR_COMMENT_URL, nil)
 	c.Request.Header.Add("Content-Type", "application/json")
 	router.ServeHTTP(w, c.Request)
 
