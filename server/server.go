@@ -71,7 +71,7 @@ func setupRouter(
 		commentV1.DELETE("/comments/:id", commentHandler.delete)
 	}
 
-	r.GET("/backend/api/v1/topics/:id/comments", commentHandler.readAllByPost)
+	r.GET("/backend/api/v1/posts/:id/comments", commentHandler.readAllByPost)
 
 	return r
 }
