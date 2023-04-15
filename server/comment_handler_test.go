@@ -14,7 +14,7 @@ import (
 const (
 	CREATE_COMMENT_URL               = "/backend/api/v1/comments"
 	READ_UPDATE_DELETE_COMMENT_URL   = "/backend/api/v1/comments/1"
-	READ_ALL_BY_POST_FOR_COMMENT_URL = "/backend/api/v1/topics/1/comments"
+	READ_ALL_BY_POST_FOR_COMMENT_URL = "/backend/api/v1/posts/1/comments"
 
 	CREATE_COMMENT_BODY = `{
 		"content": "test_content",
