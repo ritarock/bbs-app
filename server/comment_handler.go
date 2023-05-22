@@ -1,7 +1,6 @@
 package server
 
 import (
-	"context"
 	"strconv"
 	"time"
 
@@ -31,7 +30,7 @@ func (ch *commendHandler) create(c *gin.Context) {
 	if err := c.ShouldBind(&comment); err != nil {
 		errorResponse(c, err)
 	}
-	ctx := context.Background()
+	ctx := c.Request.Context()
 	postId := ch.db.
 		Post.
 		Query().
@@ -66,7 +65,7 @@ func (ch *commendHandler) readById(c *gin.Context) {
 		Comment.
 		Query().
 		Where(comment.ID(id)).
-		OnlyX(context.Background())
+		OnlyX(c.Request.Context())
 	c.JSON(ServerOK, Comment{
 		Id:          read.ID,
 		Content:     read.Content,
@@ -87,7 +86,7 @@ func (ch *commendHandler) update(c *gin.Context) {
 		errorResponse(c, err)
 	}
 
-	ctx := context.Background()
+	ctx := c.Request.Context()
 
 	postId := ch.db.
 		Post.
@@ -121,7 +120,7 @@ func (ch *commendHandler) delete(c *gin.Context) {
 	if err != nil {
 		errorResponse(c, err)
 	}
-	ctx := context.Background()
+	ctx := c.Request.Context()
 
 	read := ch.db.
 		Comment.
@@ -154,7 +153,7 @@ func (ch *commendHandler) readAllByPost(c *gin.Context) {
 		Comment.
 		Query().
 		Where(comment.PostIDEQ(topicId)).
-		AllX(context.Background())
+		AllX(c.Request.Context())
 	response := []Comment{}
 	for _, searched := range searchedAll {
 		response = append(response, Comment{

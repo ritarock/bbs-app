@@ -1,7 +1,6 @@
 package server
 
 import (
-	"context"
 	"strconv"
 	"time"
 
@@ -36,7 +35,7 @@ func (ph *postHandler) create(c *gin.Context) {
 		SetTitle(post.Title).
 		SetContent(post.Content).
 		SetPostedAt(timeNow).
-		Save(context.Background())
+		Save(c.Request.Context())
 	if err != nil {
 		errorResponse(c, err)
 	}
@@ -59,7 +58,7 @@ func (ph *postHandler) readById(c *gin.Context) {
 		Post.
 		Query().
 		Where(post.ID(id)).
-		OnlyX(context.Background())
+		OnlyX(c.Request.Context())
 	c.JSON(ServerOK, Post{
 		Id:       read.ID,
 		Title:    read.Title,
@@ -86,7 +85,7 @@ func (ph *postHandler) update(c *gin.Context) {
 		SetTitle(post.Title).
 		SetContent(post.Content).
 		SetPostedAt(timeNow).
-		Save(context.Background())
+		Save(c.Request.Context())
 	if err != nil {
 		errorResponse(c, err)
 	}
@@ -104,7 +103,7 @@ func (ph *postHandler) delete(c *gin.Context) {
 	if err != nil {
 		errorResponse(c, err)
 	}
-	ctx := context.Background()
+	ctx := c.Request.Context()
 
 	read := ph.db.
 		Post.
@@ -131,7 +130,7 @@ func (ph *postHandler) readAll(c *gin.Context) {
 	searchedAll, err := ph.db.
 		Post.
 		Query().
-		All(context.Background())
+		All(c.Request.Context())
 	if err != nil {
 		errorResponse(c, err)
 	}
