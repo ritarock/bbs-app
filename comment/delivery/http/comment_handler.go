@@ -40,6 +40,9 @@ func (c *CommentHandler) PingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *CommentHandler) CommentHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	switch r.Method {
 	case "POST":
 		c.Create(w, r)
@@ -51,6 +54,9 @@ func (c *CommentHandler) CommentHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func (c *CommentHandler) CommentsHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	switch r.Method {
 	case "GET":
 		c.GetAllByPost(w, r)

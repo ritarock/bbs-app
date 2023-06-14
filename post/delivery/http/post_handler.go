@@ -40,6 +40,9 @@ func (p *PostHandler) PingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PostHandler) PostHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	switch r.Method {
 	case "POST":
 		p.Create(w, r)
@@ -51,6 +54,9 @@ func (p *PostHandler) PostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PostHandler) PostIdHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	switch r.Method {
 	case "GET":
 		p.GetByID(w, r)
