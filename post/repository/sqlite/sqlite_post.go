@@ -28,12 +28,17 @@ func (s *sqlitePostRepository) fetch(ctx context.Context, query string, args ...
 	result := make([]domain.Post, 0)
 	for rows.Next() {
 		t := domain.Post{}
+		var postedAtStr string
 		err := rows.Scan(
 			&t.ID,
 			&t.Title,
 			&t.Content,
-			&t.PostedAt,
+			&postedAtStr,
 		)
+		if err != nil {
+			return nil, err
+		}
+		t.PostedAt, err = time.Parse("2006-01-02 15:04:05.999999999-07:00", postedAtStr)
 		if err != nil {
 			return nil, err
 		}
@@ -43,7 +48,7 @@ func (s *sqlitePostRepository) fetch(ctx context.Context, query string, args ...
 }
 
 func (s sqlitePostRepository) Create(ctx context.Context, post *domain.Post) error {
-	query := "INSERT post (title, content, posted_at) VALUES (?, ?, ?)"
+	query := "INSERT INTO post (title, content, posted_at) VALUES (?, ?, ?)"
 	stmt, err := s.Conn.PrepareContext(ctx, query)
 	if err != nil {
 		return err

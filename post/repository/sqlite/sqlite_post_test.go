@@ -23,7 +23,7 @@ func TestCreate(t *testing.T) {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
 
-	query := "INSERT post \\(title, content, posted_at\\) VALUES \\(\\?, \\?, \\?\\)"
+	query := "INSERT INTO post \\(title, content, posted_at\\) VALUES \\(\\?, \\?, \\?\\)"
 
 	prep := mock.ExpectPrepare(query)
 	prep.ExpectExec().
@@ -44,7 +44,7 @@ func TestGetById(t *testing.T) {
 	}
 
 	rows := sqlmock.NewRows([]string{"id", "title", "content", "posted_at"}).
-		AddRow(1, "title 1", "content 1", time.Now())
+		AddRow(1, "title 1", "content 1", time.Now().Format("2006-01-02 15:04:05.999999999-07:00"))
 
 	query := "SELECT id, title, content, posted_at FROM post WHERE id = \\?"
 
@@ -83,13 +83,13 @@ func TestGetAll(t *testing.T) {
 			mockPosts[0].ID,
 			mockPosts[0].Title,
 			mockPosts[0].Content,
-			mockPosts[0].PostedAt,
+			mockPosts[0].PostedAt.Format("2006-01-02 15:04:05.999999999-07:00"),
 		).
 		AddRow(
 			mockPosts[1].ID,
 			mockPosts[1].Title,
 			mockPosts[1].Content,
-			mockPosts[1].PostedAt,
+			mockPosts[1].PostedAt.Format("2006-01-02 15:04:05.999999999-07:00"),
 		)
 
 	query := "SELECT id, title, content, posted_at FROM post"

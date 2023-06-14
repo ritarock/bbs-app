@@ -6,6 +6,7 @@ import (
 	"ritarock/bbs-app/domain"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type PostHandler struct {
@@ -56,6 +57,7 @@ func (p *PostHandler) PostIdHandler(w http.ResponseWriter, r *http.Request) {
 	case "PUT":
 		p.Update(w, r)
 	case "DELETE":
+		p.Delete(w, r)
 	default:
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
@@ -75,6 +77,7 @@ func (p *PostHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	post.PostedAt = time.Now()
 	res, err := json.Marshal(post)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -140,12 +143,27 @@ func (p *PostHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var dp domain.Post
+	if err := json.NewDecoder(r.Body).Decode(&dp); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	post.Title = dp.Title
+	post.Content = dp.Content
+
 	err = p.PUsecase.Update(ctx, &post)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
+	res, err := json.Marshal(post)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	w.Write(res)
 }
 
 func (p *PostHandler) Delete(w http.ResponseWriter, r *http.Request) {
@@ -162,5 +180,5 @@ func (p *PostHandler) Delete(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 }

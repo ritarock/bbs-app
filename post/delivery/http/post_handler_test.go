@@ -197,6 +197,6 @@ func TestDelete(t *testing.T) {
 	}
 
 	handler.Delete(got, req)
-	assert.Equal(t, http.StatusOK, got.Code)
+	assert.Equal(t, http.StatusNoContent, got.Code)
 	mockUcase.AssertExpectations(t)
 }
