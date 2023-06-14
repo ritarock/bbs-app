@@ -47,7 +47,7 @@ func (s *sqlitePostRepository) fetch(ctx context.Context, query string, args ...
 	return result, nil
 }
 
-func (s sqlitePostRepository) Create(ctx context.Context, post *domain.Post) error {
+func (s *sqlitePostRepository) Create(ctx context.Context, post *domain.Post) error {
 	query := "INSERT INTO post (title, content, posted_at) VALUES (?, ?, ?)"
 	stmt, err := s.Conn.PrepareContext(ctx, query)
 	if err != nil {
@@ -66,7 +66,7 @@ func (s sqlitePostRepository) Create(ctx context.Context, post *domain.Post) err
 	return nil
 }
 
-func (s sqlitePostRepository) GetById(ctx context.Context, id int) (domain.Post, error) {
+func (s *sqlitePostRepository) GetById(ctx context.Context, id int) (domain.Post, error) {
 	query := `SELECT id, title, content, posted_at FROM post WHERE id = ?`
 
 	list, err := s.fetch(ctx, query, id)
@@ -82,7 +82,7 @@ func (s sqlitePostRepository) GetById(ctx context.Context, id int) (domain.Post,
 	return res, nil
 }
 
-func (s sqlitePostRepository) GetAll(ctx context.Context) ([]domain.Post, error) {
+func (s *sqlitePostRepository) GetAll(ctx context.Context) ([]domain.Post, error) {
 	query := `SELECT id, title, content, posted_at FROM post`
 
 	list, err := s.fetch(ctx, query)
@@ -92,7 +92,7 @@ func (s sqlitePostRepository) GetAll(ctx context.Context) ([]domain.Post, error)
 	return list, nil
 }
 
-func (s sqlitePostRepository) Update(ctx context.Context, post *domain.Post) error {
+func (s *sqlitePostRepository) Update(ctx context.Context, post *domain.Post) error {
 	query := `UPDATE post SET title = ?, content = ? WHERE id = ?`
 
 	stmt, err := s.Conn.PrepareContext(ctx, query)
@@ -114,7 +114,7 @@ func (s sqlitePostRepository) Update(ctx context.Context, post *domain.Post) err
 	return nil
 }
 
-func (s sqlitePostRepository) Delete(ctx context.Context, id int) error {
+func (s *sqlitePostRepository) Delete(ctx context.Context, id int) error {
 	query := `DELETE FROM post WHERE id = ?`
 
 	stmt, err := s.Conn.PrepareContext(ctx, query)
