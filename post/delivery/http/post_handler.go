@@ -22,7 +22,7 @@ func NewPostHandler(h *http.ServeMux, us domain.PostUsecase) {
 	handler := &PostHandler{
 		PUsecase: us,
 	}
-	h.HandleFunc("/backend/api/v1/ping", handler.PingHandler)
+	h.HandleFunc("/backend/api/v1/posts/ping", handler.PingHandler)
 	h.HandleFunc("/backend/api/v1/posts", handler.PostHandler)
 	h.HandleFunc("/backend/api/v1/posts/", handler.PostIdHandler)
 }
