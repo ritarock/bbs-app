@@ -1,13 +1,13 @@
 .PHONY: go-generate create-table test run-backend
 
-go-generate:
+generate:
 	go generate ./...
 
-create-table:
+create.table:
 	sqlite3 data.sqlite < init.sql
 
 test:
 	go test ./...
 
-run-backend:
+run.backend:
 	go run cmd/main.go

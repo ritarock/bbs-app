@@ -4,10 +4,13 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	_commentRepo "ritarock/bbs-app/comment/repository/sqlite"
+	_commentUcase "ritarock/bbs-app/comment/usecase"
 	_postRepo "ritarock/bbs-app/post/repository/sqlite"
 	_postUcase "ritarock/bbs-app/post/usecase"
 	"time"
 
+	_commentDelivery "ritarock/bbs-app/comment/delivery/http"
 	_postDelivery "ritarock/bbs-app/post/delivery/http"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -23,12 +26,15 @@ func main() {
 	defer conn.Close()
 
 	postRepo := _postRepo.NewSqlitePostRepository(conn)
+	commentRepo := _commentRepo.NewsqliteCommentRepository(conn)
 
 	timeoutContext := 2 * time.Second
-	postucase := _postUcase.NewPostUsecase(postRepo, timeoutContext)
+	postUcase := _postUcase.NewPostUsecase(postRepo, timeoutContext)
+	commentUcase := _commentUcase.NewCommentUsecase(commentRepo, timeoutContext)
 
 	handler := http.NewServeMux()
-	_postDelivery.NewPostHandler(handler, postucase)
+	_postDelivery.NewPostHandler(handler, postUcase)
+	_commentDelivery.NewCommentHandler(handler, commentUcase)
 
 	server := http.Server{
 		Addr:    "0.0.0.0:8080",
