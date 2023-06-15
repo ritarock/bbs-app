@@ -3,16 +3,17 @@ package main
 import (
 	"database/sql"
 	"log"
-	"net/http"
 	_commentRepo "ritarock/bbs-app/comment/repository/sqlite"
 	_commentUcase "ritarock/bbs-app/comment/usecase"
 	_postRepo "ritarock/bbs-app/post/repository/sqlite"
 	_postUcase "ritarock/bbs-app/post/usecase"
 	"time"
 
-	_commentDelivery "ritarock/bbs-app/comment/delivery/http"
-	_postDelivery "ritarock/bbs-app/post/delivery/http"
+	_commentDelivery "ritarock/bbs-app/comment/delivery/echo"
+	_postDelivery "ritarock/bbs-app/post/delivery/echo"
 
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -30,15 +31,15 @@ func main() {
 
 	timeoutContext := 2 * time.Second
 	postUcase := _postUcase.NewPostUsecase(postRepo, timeoutContext)
-	commentUcase := _commentUcase.NewCommentUsecase(commentRepo, timeoutContext)
+	commenttUcase := _commentUcase.NewCommentUsecase(commentRepo, timeoutContext)
 
-	handler := http.NewServeMux()
-	_postDelivery.NewPostHandler(handler, postUcase)
-	_commentDelivery.NewCommentHandler(handler, commentUcase)
+	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
+	_postDelivery.NewPostHandler(e, postUcase)
+	_commentDelivery.NewPostHandler(e, commenttUcase)
 
-	server := http.Server{
-		Addr:    "0.0.0.0:8080",
-		Handler: handler,
-	}
-	server.ListenAndServe()
+	e.Logger.Fatal(e.Start(":8080"))
 }
