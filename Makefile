@@ -1,4 +1,4 @@
-.PHONY: go-generate create-table test run-backend
+.PHONY: generate create.table test run.backend run.frontend run
 
 generate:
 	go generate ./...
@@ -11,3 +11,6 @@ test:
 
 run.backend:
 	go run cmd/main.go
+
+run.frontend:
+	cd web; yarn dev
