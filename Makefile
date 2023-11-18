@@ -21,3 +21,6 @@ test:
 
 run.backend:
 	go run cmd/main.go
+
+run.frontend:
+	cd web; yarn dev
