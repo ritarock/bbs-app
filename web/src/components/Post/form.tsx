@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Post } from "../../interfaces/post";
 import { PostAPI } from "../../api";
+import { useCookies } from "react-cookie";
 
 const PostForm = () => {
+  const [cookie] = useCookies(["token"]);
   const defaultValues: Post = {
     title: "",
     content: "",
@@ -14,7 +16,7 @@ const PostForm = () => {
     });
 
   const onsubmit = async (data: Post) => {
-    await PostAPI.createPost(data);
+    await PostAPI.createPost(data, cookie.token.token);
     window.location.reload();
   };
 

@@ -3,18 +3,18 @@ import { get, post } from "./util";
 
 const BaseUrl = "http://localhost:8080/backend/api/v1/posts";
 
-const getPostsAll = async (): Promise<Post[]> => {
-  const response = await get<Post[]>(BaseUrl);
+const getPostsAll = async (token: string): Promise<Post[]> => {
+  const response = await get<Post[]>(BaseUrl, token);
   return response;
 };
 
-const getPost = async (id: number): Promise<Post> => {
-  const response = await get<Post>(`${BaseUrl}/${id.toString()}`);
+const getPost = async (id: number, token: string): Promise<Post> => {
+  const response = await get<Post>(`${BaseUrl}/${id.toString()}`, token);
   return response;
 };
 
-const createPost = async (data: Post): Promise<Post> => {
-  const response = await post<Post>(BaseUrl, data);
+const createPost = async (data: Post, token: string): Promise<Post> => {
+  const response = await post<Post>(BaseUrl, data, token);
   return response;
 };
 

@@ -3,12 +3,14 @@ import { Post } from "../../interfaces/post";
 import { CommentAPI } from "../../api";
 import { Comment } from "../../interfaces/comment";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const CommentForm = () => {
   const defaultValues: Comment = {
     content: "",
   };
   const { id } = useParams();
+  const [cookie] = useCookies(["token"]);
 
   const { register, handleSubmit, formState: { errors, isDirty, isValid } } =
     useForm({
@@ -16,7 +18,7 @@ const CommentForm = () => {
     });
 
   const onsubmit = async (data: Post) => {
-    await CommentAPI.createComment(+id!, data);
+    await CommentAPI.createComment(+id!, data, cookie.token.token);
     window.location.reload();
   };
 
