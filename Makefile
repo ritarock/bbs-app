@@ -16,6 +16,11 @@ create.mock:
 	-destination=./testing/mock/comment.go \
 	-package=mock
 
+	$(MOCK_GEN) \
+	-source=./domain/user.go \
+	-destination=./testing/mock/user.go \
+	-package=mock
+
 test:
 	go test ./...
 

@@ -13,12 +13,10 @@ type commentHandler struct {
 	commentUsecase domain.CommentUsecase
 }
 
-func NewCommentHandler(e *echo.Echo, us domain.CommentUsecase) {
-	handler := &commentHandler{
+func NewCommentHandler(us domain.CommentUsecase) *commentHandler {
+	return &commentHandler{
 		commentUsecase: us,
 	}
-	e.POST("/backend/api/v1/post/:id/comments", handler.Create)
-	e.GET("/backend/api/v1/post/:id/comments", handler.GetAllByPostId)
 }
 
 func (ch *commentHandler) Create(c echo.Context) error {

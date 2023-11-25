@@ -36,11 +36,25 @@ func main() {
 			echo.HeaderOrigin,
 			echo.HeaderContentType,
 			echo.HeaderAccept,
+			echo.HeaderAuthorization,
 		},
 	}))
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
-	delivery.NewPostHandler(e, postUsecase)
-	delivery.NewCommentHandler(e, commentUsecase)
+	postHandler := delivery.NewPostHandler(postUsecase)
+	commentHandler := delivery.NewCommentHandler(commentUsecase)
+
+	userRepo := repository.NewUserRepository(db)
+	userUsecase := usecase.NewUserUsecase(userRepo, timeout)
+	userHandler := delivery.NewUserHandler(userUsecase)
+
+	delivery.SetupRouter(
+		e,
+		postHandler,
+		commentHandler,
+		userHandler,
+	)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

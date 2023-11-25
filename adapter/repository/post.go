@@ -34,7 +34,6 @@ func (p *postRepository) fetch(ctx context.Context, query string, args ...any) (
 			&t.Content,
 			&t.PostedAt,
 		); err != nil {
-			fmt.Println(err)
 			return nil, err
 		}
 		result = append(result, t)

@@ -13,13 +13,10 @@ type postHandler struct {
 	postUsecase domain.PostUsecase
 }
 
-func NewPostHandler(e *echo.Echo, us domain.PostUsecase) {
-	handler := &postHandler{
+func NewPostHandler(us domain.PostUsecase) *postHandler {
+	return &postHandler{
 		postUsecase: us,
 	}
-	e.POST("/backend/api/v1/posts", handler.Create)
-	e.GET("/backend/api/v1/posts", handler.GetAll)
-	e.GET("/backend/api/v1/posts/:id", handler.GetById)
 }
 
 func (p *postHandler) Create(c echo.Context) error {

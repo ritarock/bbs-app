@@ -11,3 +11,10 @@ CREATE TABLE IF NOT EXISTS comments (
     commented_at TIMESTAMP,
     post_id INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    password TEXT,
+    token TEXT
+);
