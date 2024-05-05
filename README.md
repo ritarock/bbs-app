@@ -4,4 +4,4 @@
 - Golang
 
 ## frontend
-- TBD
+- TypeScript + React
