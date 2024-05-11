@@ -1,32 +1,31 @@
-import { useCookies } from "react-cookie"
-import { Comment } from "../../interfaces/comment"
-import { CommentAPI } from "../../api"
-import { useForm } from "react-hook-form"
-import { useParams } from "react-router-dom"
-
+import { useCookies } from "react-cookie";
+import { Comment } from "../../interfaces/comment";
+import { CommentAPI } from "../../api";
+import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 const CommentForm = () => {
-  const { id } = useParams()
-  const [cookie] = useCookies(["token"])
+  const { id } = useParams();
+  const [cookie] = useCookies(["token"]);
   const defaultValues: Comment = {
     content: "",
-  }
+  };
   const {
     register,
     handleSubmit,
     formState: {
       errors,
       isDirty,
-      isValid
-    }
-  } = useForm({ defaultValues })
+      isValid,
+    },
+  } = useForm({ defaultValues });
 
   const onsubmit = async (data: Comment) => {
-    await CommentAPI.createComment(+id!, data, cookie.token.token)
-    window.location.reload()
-  }
+    await CommentAPI.createComment(+id!, data, cookie.token.token);
+    window.location.reload();
+  };
 
-  const onerror = (err: unknown) => console.log(err)
+  const onerror = (err: unknown) => console.log(err);
 
   return (
     <>
@@ -41,7 +40,7 @@ const CommentForm = () => {
               maxLength: {
                 value: 255,
                 message: "content length <= 255",
-              }
+              },
             })}
           />
           <div>{errors.content?.message}</div>
@@ -54,7 +53,7 @@ const CommentForm = () => {
         </div>
       </form>
     </>
-  )
-}
+  );
+};
 
-export default CommentForm
+export default CommentForm;

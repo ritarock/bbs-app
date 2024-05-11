@@ -1,13 +1,13 @@
-import SignupForm from "./signupForm"
+import SignupForm from "./signupForm";
 
-const SignupPage =() => {
+const SignupPage = () => {
   return (
     <>
       <div>signup</div>
       <hr />
       <SignupForm />
     </>
-  )
-}
+  );
+};
 
-export default SignupPage
+export default SignupPage;

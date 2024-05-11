@@ -1,44 +1,44 @@
-import { User } from "../interfaces/user"
-import { postNoToken } from "./utils"
+import { User } from "../interfaces/user";
+import { postNoToken } from "./utils";
 
-const BaseUrl = "http://localhost:8080/backend"
+const BaseUrl = "http://localhost:8080/backend";
 
 type SignupSuccessResponse = {
-  status: "success"
-}
+  status: "success";
+};
 
 type SignupFailureResponse = {
-  status: "error"
-}
+  status: "error";
+};
 
-type SignupResponse = SignupSuccessResponse | SignupFailureResponse
+type SignupResponse = SignupSuccessResponse | SignupFailureResponse;
 
 type LoginResponse = {
-  message?: "Unauthorized"
-  token?: string
-}
+  message?: "Unauthorized";
+  token?: string;
+};
 
 const signup = async (data: User): Promise<SignupResponse> => {
-  const response = await postNoToken<User>(`${BaseUrl}/signup`, data)
+  const response = await postNoToken<User>(`${BaseUrl}/signup`, data);
 
   if (response as string !== "success") {
-    return { status: "error" }
+    return { status: "error" };
   }
 
-  return { status: "success"}
-}
+  return { status: "success" };
+};
 
 const login = async (data: User): Promise<LoginResponse> => {
   const response: LoginResponse = await postNoToken<User>(
     `${BaseUrl}/login`,
     data,
-  )
+  );
 
   if (response.message) {
-    return { message: "Unauthorized" }
+    return { message: "Unauthorized" };
   }
 
-  return { token: response.token }
-}
+  return { token: response.token };
+};
 
-export { signup, login }
+export { login, signup };

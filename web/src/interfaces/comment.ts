@@ -3,5 +3,4 @@ export type Comment = {
   posted_at?: number;
   content?: string;
   commented_at?: string;
-}
-
+};

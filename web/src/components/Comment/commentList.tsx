@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
-import { useCookies } from "react-cookie"
-import { useParams } from "react-router-dom"
-import { CommentAPI } from "../../api"
-import { Comment } from "../../interfaces/comment"
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
+import { CommentAPI } from "../../api";
+import { Comment } from "../../interfaces/comment";
 
 const CommentList = () => {
-  const { id } = useParams()
-  const [comments, setComments] = useState<Array<Comment>>([])
-  const [cookie] = useCookies(["token"])
+  const { id } = useParams();
+  const [comments, setComments] = useState<Array<Comment>>([]);
+  const [cookie] = useCookies(["token"]);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -15,15 +15,15 @@ const CommentList = () => {
         const getComments = await CommentAPI.getCommentAll(
           +id!,
           cookie.token.token,
-        )
-        setComments([...getComments])
+        );
+        setComments([...getComments]);
       } catch (error) {
-        console.log("Error fetching comments: ", error)
+        console.log("Error fetching comments: ", error);
       }
-    }
+    };
 
-    fetchComments()
-  }, [id, cookie])
+    fetchComments();
+  }, [id, cookie]);
 
   return (
     <>
@@ -33,7 +33,7 @@ const CommentList = () => {
         </li>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default CommentList
+export default CommentList;

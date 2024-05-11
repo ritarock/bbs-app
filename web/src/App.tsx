@@ -1,5 +1,5 @@
-import PostForm from "./components/Post/postForm"
-import PostList from "./components/Post/postList"
+import PostForm from "./components/Post/postForm";
+import PostList from "./components/Post/postList";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <PostForm />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

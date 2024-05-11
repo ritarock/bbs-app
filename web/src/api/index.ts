@@ -1,5 +1,5 @@
-import * as UserAPI from './user'
-import * as PostAPI from './post'
-import * as CommentAPI from './comment'
+import * as UserAPI from "./user";
+import * as PostAPI from "./post";
+import * as CommentAPI from "./comment";
 
-export { UserAPI, PostAPI, CommentAPI }
+export { CommentAPI, PostAPI, UserAPI };

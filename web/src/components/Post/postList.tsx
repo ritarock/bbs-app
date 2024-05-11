@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react"
-import { Post } from "../../interfaces/post"
-import { useCookies } from "react-cookie"
-import { PostAPI } from "../../api"
+import { useEffect, useState } from "react";
+import { Post } from "../../interfaces/post";
+import { useCookies } from "react-cookie";
+import { PostAPI } from "../../api";
 
 const PostList = () => {
-  const [posts, setPosts] = useState<Array<Post>>([])
-  const [cookie] = useCookies(["token"])
+  const [posts, setPosts] = useState<Array<Post>>([]);
+  const [cookie] = useCookies(["token"]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const getPosts = await PostAPI.getPostAll(cookie.token.token)
-        setPosts([...getPosts])
+        const getPosts = await PostAPI.getPostAll(cookie.token.token);
+        setPosts([...getPosts]);
       } catch {
         console.log("Error fetching posts: ", console.error);
       }
-    }
+    };
 
-    fetchPosts()
-  }, [cookie])
+    fetchPosts();
+  }, [cookie]);
 
-  console.log(cookie)
+  console.log(cookie);
   return (
     <>
       {Object.keys(cookie).length === 0
@@ -33,7 +33,8 @@ const PostList = () => {
               <a href="/signup">signup</a>
             </p>
           </>
-        ) : (
+        )
+        : (
           <>
             <div>
               {posts.length > 0 &&
@@ -47,14 +48,12 @@ const PostList = () => {
                       </li>
                     ))}
                   </ul>
-                )
-              }
+                )}
             </div>
           </>
-        )
-      }
+        )}
     </>
-  )
-}
+  );
+};
 
-export default PostList
+export default PostList;

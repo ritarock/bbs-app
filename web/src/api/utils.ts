@@ -4,9 +4,9 @@ const get = async <T>(path: string, token: string): Promise<T> => {
     headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + token,
-    }
-  }).then<T>((res) => res.json())
-}
+    },
+  }).then<T>((res) => res.json());
+};
 
 const post = async <T>(path: string, data: T, token: string): Promise<T> => {
   const res = await fetch(path, {
@@ -15,11 +15,11 @@ const post = async <T>(path: string, data: T, token: string): Promise<T> => {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + token,
     },
-    body: JSON.stringify(data)
-  })
+    body: JSON.stringify(data),
+  });
 
-  return res.json()
-}
+  return res.json();
+};
 
 const postNoToken = async <T>(path: string, data: T) => {
   const res = await fetch(path, {
@@ -30,7 +30,7 @@ const postNoToken = async <T>(path: string, data: T) => {
     body: JSON.stringify(data),
   });
 
-  return res.json()
-}
+  return res.json();
+};
 
-export { get, post, postNoToken }
+export { get, post, postNoToken };

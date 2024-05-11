@@ -3,4 +3,4 @@ export type Post = {
   title?: string;
   content?: string;
   posted_at?: string;
-}
+};

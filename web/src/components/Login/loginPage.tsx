@@ -1,13 +1,13 @@
-import { useEffect } from "react"
-import { useCookies } from "react-cookie"
-import LoginForm from "./loginForm"
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import LoginForm from "./loginForm";
 
 const LoginPage = () => {
-  const [, , removeCookie] = useCookies(["token"])
+  const [, , removeCookie] = useCookies(["token"]);
 
   useEffect(() => {
-    removeCookie("token")
-  })
+    removeCookie("token");
+  });
 
   return (
     <>
@@ -15,7 +15,7 @@ const LoginPage = () => {
       <hr />
       <LoginForm />
     </>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

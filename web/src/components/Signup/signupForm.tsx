@@ -1,13 +1,13 @@
-import { useForm } from "react-hook-form"
-import { User } from "../../interfaces/user"
-import { useNavigate } from "react-router-dom"
-import { UserAPI } from "../../api"
+import { useForm } from "react-hook-form";
+import { User } from "../../interfaces/user";
+import { useNavigate } from "react-router-dom";
+import { UserAPI } from "../../api";
 
 const SignupForm = () => {
   const defaultValues: User = {
     name: "",
-    password: ""
-  }
+    password: "",
+  };
 
   const {
     register,
@@ -15,22 +15,22 @@ const SignupForm = () => {
     formState: {
       errors,
       isDirty,
-      isValid
-    }
-  } = useForm({ defaultValues })
+      isValid,
+    },
+  } = useForm({ defaultValues });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onsubmit = async (data: User) => {
-    const response = await UserAPI.signup(data)
+    const response = await UserAPI.signup(data);
     if (response.status === "success") {
-      navigate("/login", { replace: true })
+      navigate("/login", { replace: true });
     } else {
-      alert("already exists")
+      alert("already exists");
     }
-  }
+  };
 
-  const onerror = (err: unknown) => console.log(err)
+  const onerror = (err: unknown) => console.log(err);
 
   return (
     <>
@@ -46,7 +46,7 @@ const SignupForm = () => {
               maxLength: {
                 value: 30,
                 message: "name length <= 30",
-              }
+              },
             })}
           />
           <div>{errors.name?.message}</div>
@@ -62,7 +62,7 @@ const SignupForm = () => {
               maxLength: {
                 value: 30,
                 message: "8 <= password length <= 30",
-              }
+              },
             })}
           />
           <div>{errors.password?.message}</div>
@@ -75,7 +75,7 @@ const SignupForm = () => {
         </div>
       </form>
     </>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;

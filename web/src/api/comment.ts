@@ -1,21 +1,21 @@
-import { Comment } from "../interfaces/comment"
-import { get, post } from "./utils"
+import { Comment } from "../interfaces/comment";
+import { get, post } from "./utils";
 
-const BaseUrl = "http://localhost:8080/backend/api/v1/post"
+const CommentUrl = "http://localhost:8080/backend/api/v1/post";
 
 const getCommentAll = async (
   id: number,
-  token: string
+  token: string,
 ): Promise<Comment[]> => {
-  return await get<Comment[]>(`${BaseUrl}/${id}/comments`, token)
-}
+  return await get<Comment[]>(`${CommentUrl}/${id}/comments`, token);
+};
 
 const createComment = async (
   postID: number,
   data: Comment,
-  token: string
+  token: string,
 ): Promise<Comment> => {
-  return await post<Comment>(`${BaseUrl}/${postID}/comments`,data,token)
-}
+  return await post<Comment>(`${CommentUrl}/${postID}/comments`, data, token);
+};
 
-export { getCommentAll, createComment }
+export { createComment, getCommentAll };

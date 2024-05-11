@@ -1,30 +1,30 @@
-import { useCookies } from "react-cookie"
-import { Post } from "../../interfaces/post"
-import { PostAPI } from "../../api"
-import { useForm } from "react-hook-form"
+import { useCookies } from "react-cookie";
+import { Post } from "../../interfaces/post";
+import { PostAPI } from "../../api";
+import { useForm } from "react-hook-form";
 
 const PostForm = () => {
-  const [cookie] = useCookies(["token"])
+  const [cookie] = useCookies(["token"]);
   const defaultValues: Post = {
     title: "",
     content: "",
-  }
+  };
   const {
     register,
     handleSubmit,
     formState: {
       errors,
       isDirty,
-      isValid
-    }
-  } = useForm({ defaultValues })
+      isValid,
+    },
+  } = useForm({ defaultValues });
 
   const onsubmit = async (data: Post) => {
-    await PostAPI.createPost(data, cookie.token.token)
-    window.location.reload()
-  }
+    await PostAPI.createPost(data, cookie.token.token);
+    window.location.reload();
+  };
 
-  const onerror = (err: unknown) => console.log(err)
+  const onerror = (err: unknown) => console.log(err);
 
   return (
     <>
@@ -40,12 +40,12 @@ const PostForm = () => {
               maxLength: {
                 value: 30,
                 message: "title length <= 30",
-              }
+              },
             })}
           />
           <div>{errors.title?.message}</div>
         </div>
-        
+
         <div>
           <label htmlFor="content">content:</label>
           <br />
@@ -56,7 +56,7 @@ const PostForm = () => {
               maxLength: {
                 value: 255,
                 message: "content length <= 255",
-              }
+              },
             })}
           />
           <div>{errors.content?.message}</div>
@@ -69,7 +69,7 @@ const PostForm = () => {
         </div>
       </form>
     </>
-  )
-}
+  );
+};
 
-export default PostForm
+export default PostForm;
