@@ -80,7 +80,7 @@ func (u *userHandler) Login(c echo.Context) error {
 func (u *userHandler) Session(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		currentUser := c.Get("user").(*jwt.Token)
-		if u.userUsecase.IsTokenAvailable(c.Request().Context(), currentUser.Raw) {
+		if !u.userUsecase.IsTokenAvailable(c.Request().Context(), currentUser.Raw) {
 			return echo.NewHTTPError(http.StatusUnauthorized, "invalid token")
 		}
 		return next(c)

@@ -40,7 +40,6 @@ func (cm *commentHandler) Create(c echo.Context) error {
 
 	if err := cm.commentUsecase.Create(ctx, &comment); err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
-
 	}
 
 	return c.JSON(http.StatusCreated, comment)

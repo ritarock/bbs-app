@@ -28,7 +28,7 @@ func Test_commentRepository_Create(t *testing.T) {
 			mockSql: func(mock sqlmock.Sqlmock) {
 				mock.ExpectBegin()
 				mock.ExpectExec(regexp.QuoteMeta(
-					"INSERT INTO comments (posted_at, content, commented_at) VALUES (?, ?, ?)")).
+					"INSERT INTO comments (post_id, content, commented_at) VALUES (?, ?, ?)")).
 					WithArgs(1, "test", now).
 					WillReturnResult(sqlmock.NewResult(1, 1))
 				mock.ExpectCommit()
@@ -96,7 +96,7 @@ func Test_commentRepository_GetByPostID(t *testing.T) {
 					AddRow(1, 1, "test1", now).
 					AddRow(2, 1, "test2", now)
 				mock.ExpectQuery(regexp.QuoteMeta(
-					"SELECT id, posted_at, content, commented_at FROM comments WHERE posted_at = ?")).
+					"SELECT id, post_id, content, commented_at FROM comments WHERE post_id = ?")).
 					WillReturnRows(rows)
 			},
 		},

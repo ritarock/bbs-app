@@ -4,6 +4,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func NewRouter(
@@ -12,6 +13,18 @@ func NewRouter(
 	userHandler *userHandler,
 ) *echo.Echo {
 	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:5173"},
+		AllowHeaders: []string{
+			echo.HeaderOrigin,
+			echo.HeaderContentType,
+			echo.HeaderAccept,
+			echo.HeaderAuthorization,
+		},
+	}))
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
 	e.POST("/backend/signup", userHandler.Signup)
 	e.POST("/backend/login", userHandler.Login)

@@ -58,7 +58,7 @@ func (c *commentRepository) Create(ctx context.Context, comment *domain.Comment)
 		}
 	}()
 
-	query := "INSERT INTO comments (posted_at, content, commented_at) VALUES (?, ?, ?)"
+	query := "INSERT INTO comments (post_id, content, commented_at) VALUES (?, ?, ?)"
 	res, err := tx.ExecContext(ctx, query, comment.PostID, comment.Content, comment.CommentedAt)
 	if err != nil {
 		return err
@@ -78,7 +78,7 @@ func (c *commentRepository) GetAll(ctx context.Context) ([]domain.Comment, error
 }
 
 func (c *commentRepository) GetByPostID(ctx context.Context, postID int) ([]domain.Comment, error) {
-	query := "SELECT id, posted_at, content, commented_at FROM comments WHERE posted_at = ?"
+	query := "SELECT id, post_id, content, commented_at FROM comments WHERE post_id = ?"
 
 	result, err := c.fetch(ctx, query, postID)
 	if err != nil {
