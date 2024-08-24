@@ -9,8 +9,8 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const getPostAll = await PostAPI.getPostAll();
-        setPosts(getPostAll);
+        const getPosts = await PostAPI.getPostAll();
+        setPosts(getPosts);
       } catch {
         console.log("Error fetching posts: ", console.error);
       }

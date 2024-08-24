@@ -1,3 +1,4 @@
 import * as PostAPI from "./post";
+import * as CommentAPI from "./comment";
 
-export { PostAPI };
+export { CommentAPI, PostAPI };

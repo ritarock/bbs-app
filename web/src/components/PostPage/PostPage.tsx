@@ -3,6 +3,8 @@ import { Post } from "../../@types/post";
 import { PostAPI } from "../../api";
 import { useParams } from "react-router-dom";
 import Box from "../Box";
+import CommentForm from "../CommentForm";
+import CommentList from "../CommentList";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -33,6 +35,10 @@ const PostPage = () => {
           </>
         }
       />
+      <br />
+      <CommentList postID={+id!} />
+      <br />
+      <CommentForm postID={+id!} />
     </>
   );
 };

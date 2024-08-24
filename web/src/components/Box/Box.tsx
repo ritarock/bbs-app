@@ -3,6 +3,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 interface BoxProps {
   header?: ReactNode;
   content: ReactNode;
+  offHeader?: boolean;
 }
 
 const getNow = () => {
@@ -16,7 +17,7 @@ const getNow = () => {
   return `${yyyy}-${mm}-${dd} ${hour}:${minute}`;
 };
 
-const Box: React.FC<BoxProps> = ({ header, content }) => {
+const Box: React.FC<BoxProps> = ({ header, content, offHeader = false }) => {
   const [now, setNow] = useState("");
 
   useEffect(() => {
@@ -27,10 +28,16 @@ const Box: React.FC<BoxProps> = ({ header, content }) => {
     <>
       <div className="box-border h-vh w-5/6 border-2 border-slate-500 mx-auto">
         <div className="flex items-center justify-between bg-blue-100">
-          <p className="pl-1">
-            {now}
-          </p>
-          <div className="text-right pr-1">{header}</div>
+          {!offHeader
+            ? (
+              <>
+                <p className="pl-1">
+                  {now}
+                </p>
+                <div className="text-right pr-1">{header}</div>
+              </>
+            )
+            : <></>}
         </div>
         <div>
           {content}
