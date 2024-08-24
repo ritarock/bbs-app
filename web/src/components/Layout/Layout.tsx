@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Header from "../Header";
 
 interface LayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <br />
       {children}
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

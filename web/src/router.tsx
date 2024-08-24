@@ -4,9 +4,9 @@ import PostForm from "./components/PostForm";
 import PostPage from "./components/PostPage";
 
 const route = createBrowserRouter([
-  {path: "/", element: <App />},
-  {path: "/post", element: <PostForm />},
-  {path: "/posts/:id", element: <PostPage />}
-])
+  { path: "/", element: <App /> },
+  { path: "/post", element: <PostForm /> },
+  { path: "/posts/:id", element: <PostPage /> },
+]);
 
-export default route
+export default route;

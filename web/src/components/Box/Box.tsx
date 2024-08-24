@@ -1,27 +1,27 @@
-import React, { ReactNode, useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react";
 
 interface BoxProps {
-  header?: ReactNode
-  content: ReactNode
+  header?: ReactNode;
+  content: ReactNode;
 }
 
 const getNow = () => {
-  const date = new Date()
-  const yyyy = date.getFullYear()
-  const mm = ("0" + (date.getMonth())).slice(-2)
-  const dd = ("0" + (date.getDate())).slice(-2)
-  const hour = ("0" + (date.getHours())).slice(-2)
-  const minute = ("0" + (date.getMinutes())).slice(-2)
+  const date = new Date();
+  const yyyy = date.getFullYear();
+  const mm = ("0" + (date.getMonth())).slice(-2);
+  const dd = ("0" + (date.getDate())).slice(-2);
+  const hour = ("0" + (date.getHours())).slice(-2);
+  const minute = ("0" + (date.getMinutes())).slice(-2);
 
-  return `${yyyy}-${mm}-${dd} ${hour}:${minute}`
-}
+  return `${yyyy}-${mm}-${dd} ${hour}:${minute}`;
+};
 
 const Box: React.FC<BoxProps> = ({ header, content }) => {
-  const [now, setNow] = useState("")
+  const [now, setNow] = useState("");
 
   useEffect(() => {
-    setNow(getNow())
-  }, [])
+    setNow(getNow());
+  }, []);
 
   return (
     <>
@@ -37,7 +37,7 @@ const Box: React.FC<BoxProps> = ({ header, content }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Box
+export default Box;

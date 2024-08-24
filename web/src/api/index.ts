@@ -1,5 +1,3 @@
-import * as PostAPI from "./post"
+import * as PostAPI from "./post";
 
-export {
-  PostAPI
-}
+export { PostAPI };

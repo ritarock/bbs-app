@@ -7,7 +7,7 @@ const Header = () => {
         </a>
       </h1>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
