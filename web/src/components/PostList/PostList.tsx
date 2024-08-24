@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Post } from "../../@types/post"
 import { PostAPI } from "../../api"
+import Box from "../Box"
 
 const PostList = () => {
   const [posts, setPosts] = useState<Post[]>([])
@@ -20,10 +21,14 @@ const PostList = () => {
 
   return (
     <>
-    <div className="box-border h-vh w-5/6 border-2 border-slate-500 mx-auto">
-      <p className="bg-blue-100 text-right pr-4">
-        post
-      </p>
+      <Box
+        header={
+          <a href="/">
+            post
+          </a>
+        }
+        content={
+          <div>
       {posts.length > 0 && (
         <ul>
           {posts.map(post => (
@@ -39,7 +44,9 @@ const PostList = () => {
           ))}
         </ul>
       )}
-    </div>
+          </div>
+        }
+      />
     </>
   )
 }

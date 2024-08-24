@@ -1,9 +1,6 @@
-// import './App.css'
-
 import Header from "./components/Header"
+import Post from "./components/Post"
 import PostList from "./components/PostList"
-
-
 
 function App() {
   return (
@@ -12,6 +9,7 @@ function App() {
       <hr />
       <br />
       <PostList />
+      <Post />
     </>
   )
 }
