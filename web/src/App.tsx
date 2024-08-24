@@ -1,5 +1,4 @@
 import Header from "./components/Header"
-import Post from "./components/Post"
 import PostList from "./components/PostList"
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
       <hr />
       <br />
       <PostList />
-      <Post />
     </>
   )
 }
