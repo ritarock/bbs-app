@@ -27,10 +27,10 @@ const Box: React.FC<BoxProps> = ({ header, content }) => {
     <>
       <div className="box-border h-vh w-5/6 border-2 border-slate-500 mx-auto">
         <div className="flex items-center justify-between bg-blue-100">
-          <p>
+          <p className="pl-1">
             {now}
           </p>
-          <div className="text-right pr-4">{header}</div>
+          <div className="text-right pr-1">{header}</div>
         </div>
         <div>
           {content}

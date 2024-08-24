@@ -7,7 +7,7 @@ const PostList = () => {
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchPosts = async () => {
       try {
         const getPostAll = await PostAPI.getPostAll()
         setPosts(getPostAll)
@@ -16,14 +16,14 @@ const PostList = () => {
       }
     }
 
-    fetchPost()
+    fetchPosts()
   }, [])
 
   return (
     <>
       <Box
         header={
-          <a href="/">
+          <a href="/post">
             post
           </a>
         }
@@ -33,13 +33,13 @@ const PostList = () => {
         <ul>
           {posts.map(post => (
             <li key={post.id} className="mb-4">
-              <span className="font-bold text-lg text-sky-600">
+              <span className="font-bold text-lg text-sky-600 pl-1">
                 <a href={`/posts/${post.id}`}>
                   {post.title}
                 </a>
               </span>
               <br />
-              <span>{post.content}</span>
+              <span className="pl-1">{post.content}</span>
             </li>
           ))}
         </ul>

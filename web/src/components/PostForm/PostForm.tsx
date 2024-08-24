@@ -24,15 +24,15 @@ const PostForm = () => {
             className="flex flex-col items-center"
           >
           <input
-            className="border border-blue-400 w-5/6 mt-4 pl-2"
+            className="border border-blue-400 w-5/6 mt-4 pl-1"
             {...register("title", { required: true, maxLength: 30})}
             placeholder="title"
           />
-          {errors.content && <p>This field is required</p>}
+          {errors.title && <p>This field is required</p>}
           <br />
 
           <textarea
-            className="border border-blue-400 w-5/6 mt-4 pl-2 h-32 resize-none"
+            className="border border-blue-400 w-5/6 mt-4 pl-1 h-32 resize-none"
             {...register("content", { required: true, maxLength: 255 })}
             placeholder="content"
           />

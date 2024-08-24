@@ -2,7 +2,9 @@ const Header = () => {
   return (
     <>
       <h1 className="text-3xl font-bold">
-        BBS-APP
+        <a href="/">
+          BBS-APP
+        </a>
       </h1>
     </>
   )
