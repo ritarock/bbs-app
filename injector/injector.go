@@ -17,10 +17,13 @@ func InitApp(timeout time.Duration) (*echo.Echo, error) {
 	wire.Build(
 		repository.NewDb,
 		repository.NewPostRepository,
+		repository.NewCommentRepository,
 
 		usecase.NewPostUsecase,
+		usecase.NewCommentUsecase,
 
 		delivery.NewPostHandler,
+		delivery.NewCommentHandler,
 		delivery.NewRouter,
 	)
 

@@ -21,6 +21,9 @@ func InitApp(timeout time.Duration) (*echo.Echo, error) {
 	postRepository := repository.NewPostRepository(db)
 	postUsecase := usecase.NewPostUsecase(postRepository, timeout)
 	postHandler := delivery.NewPostHandler(postUsecase)
-	echoEcho := delivery.NewRouter(postHandler)
+	commentRepository := repository.NewCommentRepository(db)
+	commentUsecase := usecase.NewCommentUsecase(commentRepository, timeout)
+	commentHandler := delivery.NewCommentHandler(commentUsecase)
+	echoEcho := delivery.NewRouter(postHandler, commentHandler)
 	return echoEcho, nil
 }

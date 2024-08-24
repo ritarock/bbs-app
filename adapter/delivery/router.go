@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func NewRouter(postHandler *postHandler) *echo.Echo {
+func NewRouter(postHandler *postHandler, commentHandler *commentHandler) *echo.Echo {
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -20,10 +20,14 @@ func NewRouter(postHandler *postHandler) *echo.Echo {
 		},
 	}))
 
-	p := e.Group("/backend/api/v1")
-	p.POST("/posts", postHandler.Create)
-	p.GET("/posts", postHandler.GetAll)
-	p.GET("/posts/:id", postHandler.GetByID)
+	g := e.Group("/backend/api/v1")
+
+	g.POST("/posts", postHandler.Create)
+	g.GET("/posts", postHandler.GetAll)
+	g.GET("/posts/:id", postHandler.GetByID)
+
+	g.POST("/post/:post_id/comments", commentHandler.Create)
+	g.GET("/post/:post_id/comments", commentHandler.GetAll)
 
 	return e
 }
