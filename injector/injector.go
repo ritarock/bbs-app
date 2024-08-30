@@ -18,12 +18,15 @@ func InitApp(timeout time.Duration) (*echo.Echo, error) {
 		repository.NewDb,
 		repository.NewPostRepository,
 		repository.NewCommentRepository,
+		repository.NewUserRepository,
 
 		usecase.NewPostUsecase,
 		usecase.NewCommentUsecase,
+		usecase.NewUserUsecase,
 
 		delivery.NewPostHandler,
 		delivery.NewCommentHandler,
+		delivery.NewUserHandler,
 		delivery.NewRouter,
 	)
 

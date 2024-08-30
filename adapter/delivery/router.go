@@ -1,11 +1,17 @@
 package delivery
 
 import (
+	"github.com/golang-jwt/jwt/v5"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func NewRouter(postHandler *postHandler, commentHandler *commentHandler) *echo.Echo {
+func NewRouter(
+	postHandler *postHandler,
+	commentHandler *commentHandler,
+	userHandler *userHandler,
+) *echo.Echo {
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -20,14 +26,25 @@ func NewRouter(postHandler *postHandler, commentHandler *commentHandler) *echo.E
 		},
 	}))
 
-	g := e.Group("/backend/api/v1")
+	e.POST("/backend/signup", userHandler.Signup)
+	e.POST("/backend/login", userHandler.Login)
 
-	g.POST("/posts", postHandler.Create)
-	g.GET("/posts", postHandler.GetAll)
-	g.GET("/posts/:id", postHandler.GetByID)
+	auth := e.Group("/backend/api/v1")
+	config := echojwt.Config{
+		NewClaimsFunc: func(c echo.Context) jwt.Claims {
+			return new(jwtCustomClaims)
+		},
+		SigningKey: []byte("secret"),
+	}
+	auth.Use(echojwt.WithConfig(config))
+	auth.Use(checkLogin)
 
-	g.POST("/post/:post_id/comments", commentHandler.Create)
-	g.GET("/post/:post_id/comments", commentHandler.GetAll)
+	auth.POST("/posts", postHandler.Create)
+	auth.GET("/posts", postHandler.GetAll)
+	auth.GET("/posts/:id", postHandler.GetByID)
+
+	auth.POST("/post/:post_id/comments", commentHandler.Create)
+	auth.GET("/post/:post_id/comments", commentHandler.GetAll)
 
 	return e
 }
