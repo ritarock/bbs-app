@@ -1,4 +1,5 @@
 import * as PostAPI from "./post";
 import * as CommentAPI from "./comment";
+import * as AuthAPI from "./auth";
 
-export { CommentAPI, PostAPI };
+export { AuthAPI, CommentAPI, PostAPI };
