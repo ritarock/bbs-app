@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  typespec:
+    build: .
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: [ "tsp", "--version" ]
