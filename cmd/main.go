@@ -3,8 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/ogen-go/ogen/middleware"
 	"github.com/ritarock/bbs-app/application/usecase/post"
 	"github.com/ritarock/bbs-app/infra/database"
 	"github.com/ritarock/bbs-app/infra/handler"
@@ -36,7 +38,7 @@ func main() {
 		deletePostUsecase,
 	)
 
-	srv, err := api.NewServer(postHandler)
+	srv, err := api.NewServer(postHandler, api.WithMiddleware(loging()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,5 +46,17 @@ func main() {
 	log.Println("Server starting on :8080")
 	if err := http.ListenAndServe(":8080", srv); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func loging() middleware.Middleware {
+	return func(req middleware.Request, next middleware.Next) (middleware.Response, error) {
+		start := time.Now()
+		resp, err := next(req)
+		duration := time.Since(start)
+
+		log.Printf("%s %s %s", req.Raw.Method, req.Raw.URL.Path, duration)
+
+		return resp, err
 	}
 }
