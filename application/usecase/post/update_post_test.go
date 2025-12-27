@@ -17,7 +17,7 @@ import (
 
 func TestUpdatePostUsecase_Execute(t *testing.T) {
 	t.Parallel()
-	createdAt := time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local)
+	postedAt := time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local)
 	tests := []struct {
 		name     string
 		input    dto.UpdatePostInput
@@ -35,7 +35,7 @@ func TestUpdatePostUsecase_Execute(t *testing.T) {
 						valueobject.NewPostID(1),
 						"title",
 						"content",
-						createdAt,
+						postedAt,
 					), nil)
 				m.EXPECT().
 					Update(gomock.Any(), gomock.Cond(func(p any) bool {
@@ -46,10 +46,10 @@ func TestUpdatePostUsecase_Execute(t *testing.T) {
 					Return(nil)
 			},
 			want: &dto.UpdatePostOutput{
-				ID:        1,
-				Title:     "new title",
-				Content:   "new content",
-				CreatedAt: createdAt,
+				ID:       1,
+				Title:    "new title",
+				Content:  "new content",
+				PostedAt: postedAt,
 			},
 			hasError: false,
 		},
@@ -85,7 +85,7 @@ func TestUpdatePostUsecase_Execute(t *testing.T) {
 						valueobject.NewPostID(1),
 						"title",
 						"content",
-						createdAt,
+						postedAt,
 					), nil)
 
 			},
@@ -102,7 +102,7 @@ func TestUpdatePostUsecase_Execute(t *testing.T) {
 						valueobject.NewPostID(1),
 						"title",
 						"content",
-						createdAt,
+						postedAt,
 					), nil)
 				m.EXPECT().
 					Update(gomock.Any(), gomock.Cond(func(p any) bool {

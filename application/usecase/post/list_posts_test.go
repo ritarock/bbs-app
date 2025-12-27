@@ -17,7 +17,7 @@ import (
 
 func TestListPostUsecase_Execute(t *testing.T) {
 	t.Parallel()
-	createdAt := time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local)
+	postedAt := time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local)
 	tests := []struct {
 		name     string
 		mockFunc func(m *mock.MockPostRepository)
@@ -30,18 +30,18 @@ func TestListPostUsecase_Execute(t *testing.T) {
 				m.EXPECT().FindAll(gomock.Any()).
 					Return([]*entity.Post{
 						entity.ReconstructPost(valueobject.NewPostID(1),
-							"title1", "content1", createdAt,
+							"title1", "content1", postedAt,
 						),
 						entity.ReconstructPost(valueobject.NewPostID(2),
-							"title2", "content2", createdAt,
+							"title2", "content2", postedAt,
 						),
 					}, nil)
 
 			},
 			want: &dto.ListPostOutput{
 				Posts: []dto.PostItem{
-					{ID: 1, Title: "title1", Content: "content1", CreatedAt: createdAt},
-					{ID: 2, Title: "title2", Content: "content2", CreatedAt: createdAt},
+					{ID: 1, Title: "title1", Content: "content1", PostedAt: postedAt},
+					{ID: 2, Title: "title2", Content: "content2", PostedAt: postedAt},
 				},
 			},
 			hasError: false,

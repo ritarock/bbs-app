@@ -91,10 +91,10 @@ func (s *ErrorStatusCode) SetResponse(val Error) {
 
 // Ref: #/components/schemas/Post
 type Post struct {
-	ID        int64     `json:"id"`
-	Title     string    `json:"title"`
-	Content   string    `json:"content"`
-	CreatedAt time.Time `json:"createdAt"`
+	ID       int64     `json:"id"`
+	Title    string    `json:"title"`
+	Content  string    `json:"content"`
+	PostedAt time.Time `json:"postedAt"`
 }
 
 // GetID returns the value of ID.
@@ -112,9 +112,9 @@ func (s *Post) GetContent() string {
 	return s.Content
 }
 
-// GetCreatedAt returns the value of CreatedAt.
-func (s *Post) GetCreatedAt() time.Time {
-	return s.CreatedAt
+// GetPostedAt returns the value of PostedAt.
+func (s *Post) GetPostedAt() time.Time {
+	return s.PostedAt
 }
 
 // SetID sets the value of ID.
@@ -132,9 +132,9 @@ func (s *Post) SetContent(val string) {
 	s.Content = val
 }
 
-// SetCreatedAt sets the value of CreatedAt.
-func (s *Post) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
+// SetPostedAt sets the value of PostedAt.
+func (s *Post) SetPostedAt(val time.Time) {
+	s.PostedAt = val
 }
 
 // Ref: #/components/schemas/PostList

@@ -260,8 +260,8 @@ func (s *Post) encodeFields(e *jx.Encoder) {
 		e.Str(s.Content)
 	}
 	{
-		e.FieldStart("createdAt")
-		json.EncodeDateTime(e, s.CreatedAt)
+		e.FieldStart("postedAt")
+		json.EncodeDateTime(e, s.PostedAt)
 	}
 }
 
@@ -269,7 +269,7 @@ var jsonFieldsNameOfPost = [4]string{
 	0: "id",
 	1: "title",
 	2: "content",
-	3: "createdAt",
+	3: "postedAt",
 }
 
 // Decode decodes Post from json.
@@ -317,17 +317,17 @@ func (s *Post) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"content\"")
 			}
-		case "createdAt":
+		case "postedAt":
 			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
-				s.CreatedAt = v
+				s.PostedAt = v
 				if err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"createdAt\"")
+				return errors.Wrap(err, "decode field \"postedAt\"")
 			}
 		default:
 			return d.Skip()

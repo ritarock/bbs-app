@@ -31,9 +31,9 @@ func (u *GetPostUsecase) Execute(ctx context.Context, input dto.GetPostInput) (*
 	}
 
 	return &dto.GetPostOutput{
-		ID:        post.ID().Int(),
-		Title:     post.Title().String(),
-		Content:   post.Content().String(),
-		CreatedAt: post.CreatedAt(),
+		ID:       post.ID().Int(),
+		Title:    post.Title().String(),
+		Content:  post.Content().String(),
+		PostedAt: post.PostedAt(),
 	}, nil
 }

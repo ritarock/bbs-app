@@ -9,8 +9,8 @@ import (
 )
 
 type Post struct {
-	ID        int64
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	ID       int64
+	Title    string
+	Content  string
+	PostedAt time.Time
 }

@@ -48,10 +48,10 @@ func (p *PostHandler) PostsCreate(ctx context.Context, req *api.CreatePostReques
 	}
 
 	return &api.Post{
-		ID:        int64(output.ID),
-		Title:     output.Title,
-		Content:   output.Content,
-		CreatedAt: output.CreatedAt,
+		ID:       int64(output.ID),
+		Title:    output.Title,
+		Content:  output.Content,
+		PostedAt: output.PostedAt,
 	}, nil
 }
 
@@ -66,10 +66,10 @@ func (p *PostHandler) PostsRead(ctx context.Context, params api.PostsReadParams)
 	}
 
 	return &api.Post{
-		ID:        int64(output.ID),
-		Title:     output.Title,
-		Content:   output.Content,
-		CreatedAt: output.CreatedAt,
+		ID:       int64(output.ID),
+		Title:    output.Title,
+		Content:  output.Content,
+		PostedAt: output.PostedAt,
 	}, nil
 }
 
@@ -82,10 +82,10 @@ func (p *PostHandler) PostsList(ctx context.Context) (*api.PostList, error) {
 	items := make([]api.Post, len(output.Posts))
 	for i, post := range output.Posts {
 		items[i] = api.Post{
-			ID:        int64(post.ID),
-			Title:     post.Title,
-			Content:   post.Content,
-			CreatedAt: post.CreatedAt,
+			ID:       int64(post.ID),
+			Title:    post.Title,
+			Content:  post.Content,
+			PostedAt: post.PostedAt,
 		}
 	}
 
@@ -105,10 +105,10 @@ func (p *PostHandler) PostsUpdate(ctx context.Context, req *api.UpdatePostReques
 	}
 
 	return &api.Post{
-		ID:        int64(output.ID),
-		Title:     output.Title,
-		Content:   output.Content,
-		CreatedAt: output.CreatedAt,
+		ID:       int64(output.ID),
+		Title:    output.Title,
+		Content:  output.Content,
+		PostedAt: output.PostedAt,
 	}, nil
 }
 

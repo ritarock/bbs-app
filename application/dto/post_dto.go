@@ -8,10 +8,10 @@ type CreatePostInput struct {
 }
 
 type CreatePostOutput struct {
-	ID        int
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	ID       int
+	Title    string
+	Content  string
+	PostedAt time.Time
 }
 
 type GetPostInput struct {
@@ -19,17 +19,17 @@ type GetPostInput struct {
 }
 
 type GetPostOutput struct {
-	ID        int
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	ID       int
+	Title    string
+	Content  string
+	PostedAt time.Time
 }
 
 type PostItem struct {
-	ID        int
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	ID       int
+	Title    string
+	Content  string
+	PostedAt time.Time
 }
 
 type ListPostOutput struct {
@@ -43,10 +43,10 @@ type UpdatePostInput struct {
 }
 
 type UpdatePostOutput struct {
-	ID        int
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	ID       int
+	Title    string
+	Content  string
+	PostedAt time.Time
 }
 
 type DeletePostInput struct {

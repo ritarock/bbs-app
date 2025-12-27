@@ -145,7 +145,7 @@ components:
         - id
         - title
         - content
-        - createdAt
+        - postedAt
       properties:
         id:
           type: integer
@@ -158,7 +158,7 @@ components:
           type: string
           minLength: 1
           maxLength: 255
-        createdAt:
+        postedAt:
           type: string
           format: date-time
     PostList:

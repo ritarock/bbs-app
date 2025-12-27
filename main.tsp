@@ -10,7 +10,7 @@ model Post {
   id: int64;
   @minLength(1) @maxLength(30) title: string;
   @minLength(1) @maxLength(255) content: string;
-  createdAt: utcDateTime;
+  postedAt: utcDateTime;
 }
 
 model PostList {

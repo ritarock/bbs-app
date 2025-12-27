@@ -17,7 +17,7 @@ import (
 
 func TestGetPostUsecase_Execute(t *testing.T) {
 	t.Parallel()
-	createdAt := time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local)
+	postedAt := time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local)
 	tests := []struct {
 		name     string
 		input    dto.GetPostInput
@@ -35,14 +35,14 @@ func TestGetPostUsecase_Execute(t *testing.T) {
 						valueobject.NewPostID(1),
 						"title",
 						"content",
-						createdAt,
+						postedAt,
 					), nil)
 			},
 			want: &dto.GetPostOutput{
-				ID:        1,
-				Title:     "title",
-				Content:   "content",
-				CreatedAt: createdAt,
+				ID:       1,
+				Title:    "title",
+				Content:  "content",
+				PostedAt: postedAt,
 			},
 			hasError: false,
 		},

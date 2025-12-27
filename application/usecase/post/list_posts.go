@@ -26,10 +26,10 @@ func (u *ListPostUsecase) Execute(ctx context.Context) (*dto.ListPostOutput, err
 	items := make([]dto.PostItem, len(posts))
 	for i, post := range posts {
 		items[i] = dto.PostItem{
-			ID:        post.ID().Int(),
-			Title:     post.Title().String(),
-			Content:   post.Content().String(),
-			CreatedAt: post.CreatedAt(),
+			ID:       post.ID().Int(),
+			Title:    post.Title().String(),
+			Content:  post.Content().String(),
+			PostedAt: post.PostedAt(),
 		}
 	}
 

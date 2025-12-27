@@ -39,9 +39,9 @@ func (u *UpdatePostUsecase) Execute(ctx context.Context, input dto.UpdatePostInp
 	}
 
 	return &dto.UpdatePostOutput{
-		ID:        postID.Int(),
-		Title:     post.Title().String(),
-		Content:   post.Content().String(),
-		CreatedAt: post.CreatedAt(),
+		ID:       postID.Int(),
+		Title:    post.Title().String(),
+		Content:  post.Content().String(),
+		PostedAt: post.PostedAt(),
 	}, nil
 }

@@ -21,9 +21,9 @@ func NewPostRepository(db query.DBTX) repository.PostRepository {
 
 func (p *PostRepository) Save(ctx context.Context, post *entity.Post) (valueobject.PostID, error) {
 	result, err := p.queries.InsertPost(ctx, query.InsertPostParams{
-		Title:     post.Title().String(),
-		Content:   post.Content().String(),
-		CreatedAt: post.CreatedAt(),
+		Title:    post.Title().String(),
+		Content:  post.Content().String(),
+		PostedAt: post.PostedAt(),
 	})
 	if err != nil {
 		return valueobject.PostID{}, err
@@ -76,6 +76,6 @@ func (p *PostRepository) toEntity(row query.Post) *entity.Post {
 		valueobject.NewPostID(int(row.ID)),
 		row.Title,
 		row.Content,
-		row.CreatedAt,
+		row.PostedAt,
 	)
 }

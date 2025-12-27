@@ -1,6 +1,6 @@
 -- name: InsertPost :execresult
 INSERT INTO posts (
-    title, content, created_at
+    title, content, posted_at
 ) VALUES (
     ?, ?, ?
 );

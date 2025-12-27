@@ -79,7 +79,7 @@ func TestCreatePostUsecase_Execute(t *testing.T) {
 				assert.Equal(t, test.want.ID, got.ID)
 				assert.Equal(t, test.want.Title, got.Title)
 				assert.Equal(t, test.want.Content, got.Content)
-				assert.NotZero(t, got.CreatedAt)
+				assert.NotZero(t, got.PostedAt)
 			}
 		})
 	}

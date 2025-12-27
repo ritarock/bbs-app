@@ -7,10 +7,10 @@ import (
 )
 
 type Post struct {
-	id        valueobject.PostID
-	title     valueobject.PostTitle
-	content   valueobject.PostContent
-	createdAt time.Time
+	id       valueobject.PostID
+	title    valueobject.PostTitle
+	content  valueobject.PostContent
+	postedAt time.Time
 }
 
 func NewPost(title, content string) (*Post, error) {
@@ -24,9 +24,9 @@ func NewPost(title, content string) (*Post, error) {
 	}
 
 	return &Post{
-		title:     postTitle,
-		content:   postContent,
-		createdAt: time.Now(),
+		title:    postTitle,
+		content:  postContent,
+		postedAt: time.Now(),
 	}, nil
 }
 
@@ -42,8 +42,8 @@ func (p *Post) Content() valueobject.PostContent {
 	return p.content
 }
 
-func (p *Post) CreatedAt() time.Time {
-	return p.createdAt
+func (p *Post) PostedAt() time.Time {
+	return p.postedAt
 }
 
 func (p *Post) Update(title, content string) error {
@@ -61,11 +61,11 @@ func (p *Post) Update(title, content string) error {
 	return nil
 }
 
-func ReconstructPost(id valueobject.PostID, title, content string, createdAt time.Time) *Post {
+func ReconstructPost(id valueobject.PostID, title, content string, postedAt time.Time) *Post {
 	return &Post{
-		id:        id,
-		title:     valueobject.ReconstructPostTitle(title),
-		content:   valueobject.ReconstructPostContent(content),
-		createdAt: createdAt,
+		id:       id,
+		title:    valueobject.ReconstructPostTitle(title),
+		content:  valueobject.ReconstructPostContent(content),
+		postedAt: postedAt,
 	}
 }

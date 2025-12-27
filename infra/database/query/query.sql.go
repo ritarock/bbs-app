@@ -25,24 +25,24 @@ func (q *Queries) DeletePost(ctx context.Context, id int64) error {
 
 const insertPost = `-- name: InsertPost :execresult
 INSERT INTO posts (
-    title, content, created_at
+    title, content, posted_at
 ) VALUES (
     ?, ?, ?
 )
 `
 
 type InsertPostParams struct {
-	Title     string
-	Content   string
-	CreatedAt time.Time
+	Title    string
+	Content  string
+	PostedAt time.Time
 }
 
 func (q *Queries) InsertPost(ctx context.Context, arg InsertPostParams) (sql.Result, error) {
-	return q.db.ExecContext(ctx, insertPost, arg.Title, arg.Content, arg.CreatedAt)
+	return q.db.ExecContext(ctx, insertPost, arg.Title, arg.Content, arg.PostedAt)
 }
 
 const selectPost = `-- name: SelectPost :one
-SELECT id, title, content, created_at FROM posts
+SELECT id, title, content, posted_at FROM posts
 WHERE id = ?
 `
 
@@ -53,7 +53,7 @@ func (q *Queries) SelectPost(ctx context.Context, id int64) (Post, error) {
 		&i.ID,
 		&i.Title,
 		&i.Content,
-		&i.CreatedAt,
+		&i.PostedAt,
 	)
 	return i, err
 }
@@ -61,7 +61,7 @@ func (q *Queries) SelectPost(ctx context.Context, id int64) (Post, error) {
 const selectPosts = `-- name: SelectPosts :many
 ;
 
-SELECT id, title, content, created_at FROM posts
+SELECT id, title, content, posted_at FROM posts
 ORDER BY id
 `
 
@@ -78,7 +78,7 @@ func (q *Queries) SelectPosts(ctx context.Context) ([]Post, error) {
 			&i.ID,
 			&i.Title,
 			&i.Content,
-			&i.CreatedAt,
+			&i.PostedAt,
 		); err != nil {
 			return nil, err
 		}
