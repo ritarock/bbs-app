@@ -5,6 +5,10 @@ mock:
 	-source=./domain/repository/post_repository.go \
 	-destination=./testing/mock/post_repository.go \
 	-package=mock
+	$(MOCK_GEN) \
+	-source=./domain/repository/comment_repository.go \
+	-destination=./testing/mock/comment_repository.go \
+	-package=mock
 
 test:
 	go test ./...
