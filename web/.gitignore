@@ -6,6 +6,9 @@ out
 dist
 *.tgz
 
+# generated code (orval)
+src/generated
+
 # code coverage
 coverage
 *.lcov
