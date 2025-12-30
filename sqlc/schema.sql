@@ -4,3 +4,10 @@ CREATE TABLE IF NOT EXISTS posts (
     content TEXT NOT NULL,
     posted_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id INTEGER NOT NULL,
+    body TEXT NOT NULL,
+    commented_at TIMESTAMP NOT NULL
+);

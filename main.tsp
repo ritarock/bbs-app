@@ -49,3 +49,39 @@ interface Posts {
     @statusCode statusCode: 204;
   } | Error;
 }
+
+model Comment {
+  id: int64;
+  postId: int64;
+  @minLength(1) body: string;
+  commentedAt: utcDateTime;
+}
+
+model CommentList {
+  items: Comment[];
+}
+
+model CreateCommentRequest {
+  @minLength(1) body: string;
+}
+
+model UpdateCommentRequest {
+  @minLength(1) body: string;
+}
+
+@route("/posts/{postId}/comments")
+interface Comments {
+  @post create(@path postId: int64, @body body: CreateCommentRequest): {
+    @statusCode statusCode: 201;
+    @body body: Comment;
+  } | Error;
+
+  @get read(@path postId: int64, @path id: int64): Comment | Error;
+  @get list(@path postId: int64): CommentList | Error;
+
+  @put update(@path postId: int64, @path id: int64, @body body: UpdateCommentRequest): Comment | Error;
+
+  @delete delete(@path postId: int64, @path id: int64): {
+    @statusCode statusCode: 204;
+  } | Error;
+}
