@@ -10,6 +10,34 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
+func encodeCommentsCreateRequest(
+	req *CreateCommentRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCommentsUpdateRequest(
+	req *UpdateCommentRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodePostsCreateRequest(
 	req *CreatePostRequest,
 	r *http.Request,

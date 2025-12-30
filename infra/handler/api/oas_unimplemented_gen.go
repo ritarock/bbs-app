@@ -13,6 +13,41 @@ type UnimplementedHandler struct{}
 
 var _ Handler = UnimplementedHandler{}
 
+// CommentsCreate implements Comments_create operation.
+//
+// POST /posts/{postId}/comments
+func (UnimplementedHandler) CommentsCreate(ctx context.Context, req *CreateCommentRequest, params CommentsCreateParams) (r *Comment, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// CommentsDelete implements Comments_delete operation.
+//
+// DELETE /posts/{postId}/comments/{id}
+func (UnimplementedHandler) CommentsDelete(ctx context.Context, params CommentsDeleteParams) error {
+	return ht.ErrNotImplemented
+}
+
+// CommentsList implements Comments_list operation.
+//
+// GET /posts/{postId}/comments
+func (UnimplementedHandler) CommentsList(ctx context.Context, params CommentsListParams) (r *CommentList, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// CommentsRead implements Comments_read operation.
+//
+// GET /posts/{postId}/comments/{id}
+func (UnimplementedHandler) CommentsRead(ctx context.Context, params CommentsReadParams) (r *Comment, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// CommentsUpdate implements Comments_update operation.
+//
+// PUT /posts/{postId}/comments/{id}
+func (UnimplementedHandler) CommentsUpdate(ctx context.Context, req *UpdateCommentRequest, params CommentsUpdateParams) (r *Comment, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // PostsCreate implements Posts_create operation.
 //
 // POST /posts

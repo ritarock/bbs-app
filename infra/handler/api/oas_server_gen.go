@@ -8,6 +8,26 @@ import (
 
 // Handler handles operations described by OpenAPI v3 specification.
 type Handler interface {
+	// CommentsCreate implements Comments_create operation.
+	//
+	// POST /posts/{postId}/comments
+	CommentsCreate(ctx context.Context, req *CreateCommentRequest, params CommentsCreateParams) (*Comment, error)
+	// CommentsDelete implements Comments_delete operation.
+	//
+	// DELETE /posts/{postId}/comments/{id}
+	CommentsDelete(ctx context.Context, params CommentsDeleteParams) error
+	// CommentsList implements Comments_list operation.
+	//
+	// GET /posts/{postId}/comments
+	CommentsList(ctx context.Context, params CommentsListParams) (*CommentList, error)
+	// CommentsRead implements Comments_read operation.
+	//
+	// GET /posts/{postId}/comments/{id}
+	CommentsRead(ctx context.Context, params CommentsReadParams) (*Comment, error)
+	// CommentsUpdate implements Comments_update operation.
+	//
+	// PUT /posts/{postId}/comments/{id}
+	CommentsUpdate(ctx context.Context, req *UpdateCommentRequest, params CommentsUpdateParams) (*Comment, error)
 	// PostsCreate implements Posts_create operation.
 	//
 	// POST /posts

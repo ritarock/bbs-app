@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPostHandler_NewError(t *testing.T) {
+func TestHandler_NewError(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name           string
@@ -25,6 +25,12 @@ func TestPostHandler_NewError(t *testing.T) {
 			wantMessage:    "Post not found",
 		},
 		{
+			name:           "comment not found",
+			err:            errors.New("comment not found"),
+			wantStatusCode: http.StatusNotFound,
+			wantMessage:    "Comment not found",
+		},
+		{
 			name:           "title validation error",
 			err:            errors.New("title must be between 1 and 30 characters"),
 			wantStatusCode: http.StatusBadRequest,
@@ -35,6 +41,12 @@ func TestPostHandler_NewError(t *testing.T) {
 			err:            errors.New("content must be between 1 and 255 characters"),
 			wantStatusCode: http.StatusBadRequest,
 			wantMessage:    "content must be between 1 and 255 characters",
+		},
+		{
+			name:           "body validation error",
+			err:            errors.New("body must be at least 1 character"),
+			wantStatusCode: http.StatusBadRequest,
+			wantMessage:    "body must be at least 1 character",
 		},
 		{
 			name:           "unknown error",
@@ -48,7 +60,7 @@ func TestPostHandler_NewError(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			h := handler.NewPostHandler(nil, nil, nil, nil, nil)
+			h := handler.NewHandler(nil, nil)
 			got := h.NewError(context.Background(), test.err)
 
 			assert.Equal(t, test.wantStatusCode, got.StatusCode)

@@ -11,6 +11,18 @@ import (
 	"time"
 )
 
+const deleteComment = `-- name: DeleteComment :exec
+;
+
+DELETE FROM comments
+WHERE id = ?
+`
+
+func (q *Queries) DeleteComment(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteComment, id)
+	return err
+}
+
 const deletePost = `-- name: DeletePost :exec
 ;
 
@@ -21,6 +33,26 @@ WHERE id = ?
 func (q *Queries) DeletePost(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deletePost, id)
 	return err
+}
+
+const insertComment = `-- name: InsertComment :execresult
+;
+
+INSERT INTO comments (
+    post_id, body, commented_at
+) VALUES (
+    ?, ?, ?
+)
+`
+
+type InsertCommentParams struct {
+	PostID      int64
+	Body        string
+	CommentedAt time.Time
+}
+
+func (q *Queries) InsertComment(ctx context.Context, arg InsertCommentParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, insertComment, arg.PostID, arg.Body, arg.CommentedAt)
 }
 
 const insertPost = `-- name: InsertPost :execresult
@@ -39,6 +71,59 @@ type InsertPostParams struct {
 
 func (q *Queries) InsertPost(ctx context.Context, arg InsertPostParams) (sql.Result, error) {
 	return q.db.ExecContext(ctx, insertPost, arg.Title, arg.Content, arg.PostedAt)
+}
+
+const selectComment = `-- name: SelectComment :one
+SELECT id, post_id, body, commented_at FROM comments
+WHERE id = ?
+`
+
+func (q *Queries) SelectComment(ctx context.Context, id int64) (Comment, error) {
+	row := q.db.QueryRowContext(ctx, selectComment, id)
+	var i Comment
+	err := row.Scan(
+		&i.ID,
+		&i.PostID,
+		&i.Body,
+		&i.CommentedAt,
+	)
+	return i, err
+}
+
+const selectCommentsByPostId = `-- name: SelectCommentsByPostId :many
+;
+
+SELECT id, post_id, body, commented_at FROM comments
+WHERE post_id = ?
+ORDER BY id
+`
+
+func (q *Queries) SelectCommentsByPostId(ctx context.Context, postID int64) ([]Comment, error) {
+	rows, err := q.db.QueryContext(ctx, selectCommentsByPostId, postID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Comment
+	for rows.Next() {
+		var i Comment
+		if err := rows.Scan(
+			&i.ID,
+			&i.PostID,
+			&i.Body,
+			&i.CommentedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const selectPost = `-- name: SelectPost :one
@@ -91,6 +176,24 @@ func (q *Queries) SelectPosts(ctx context.Context) ([]Post, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateComment = `-- name: UpdateComment :exec
+;
+
+UPDATE comments
+SET body = ?
+WHERE id = ?
+`
+
+type UpdateCommentParams struct {
+	Body string
+	ID   int64
+}
+
+func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) error {
+	_, err := q.db.ExecContext(ctx, updateComment, arg.Body, arg.ID)
+	return err
 }
 
 const updatePost = `-- name: UpdatePost :exec

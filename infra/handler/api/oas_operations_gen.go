@@ -6,9 +6,14 @@ package api
 type OperationName = string
 
 const (
-	PostsCreateOperation OperationName = "PostsCreate"
-	PostsDeleteOperation OperationName = "PostsDelete"
-	PostsListOperation   OperationName = "PostsList"
-	PostsReadOperation   OperationName = "PostsRead"
-	PostsUpdateOperation OperationName = "PostsUpdate"
+	CommentsCreateOperation OperationName = "CommentsCreate"
+	CommentsDeleteOperation OperationName = "CommentsDelete"
+	CommentsListOperation   OperationName = "CommentsList"
+	CommentsReadOperation   OperationName = "CommentsRead"
+	CommentsUpdateOperation OperationName = "CommentsUpdate"
+	PostsCreateOperation    OperationName = "PostsCreate"
+	PostsDeleteOperation    OperationName = "PostsDelete"
+	PostsListOperation      OperationName = "PostsList"
+	PostsReadOperation      OperationName = "PostsRead"
+	PostsUpdateOperation    OperationName = "PostsUpdate"
 )

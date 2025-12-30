@@ -40,7 +40,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		s.notFound(w, r)
 		return
 	}
-	args := [1]string{}
+	args := [2]string{}
 
 	// Static code generated router with unwrapped path search.
 	switch {
@@ -78,17 +78,16 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					break
 				}
 
-				// Param: "id"
-				// Leaf parameter, slashes are prohibited
+				// Param: "postId"
+				// Match until "/"
 				idx := strings.IndexByte(elem, '/')
-				if idx >= 0 {
-					break
+				if idx < 0 {
+					idx = len(elem)
 				}
-				args[0] = elem
-				elem = ""
+				args[0] = elem[:idx]
+				elem = elem[idx:]
 
 				if len(elem) == 0 {
-					// Leaf node.
 					switch r.Method {
 					case "DELETE":
 						s.handlePostsDeleteRequest([1]string{
@@ -108,6 +107,77 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 					return
 				}
+				switch elem[0] {
+				case '/': // Prefix: "/comments"
+
+					if l := len("/comments"); len(elem) >= l && elem[0:l] == "/comments" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						switch r.Method {
+						case "GET":
+							s.handleCommentsListRequest([1]string{
+								args[0],
+							}, elemIsEscaped, w, r)
+						case "POST":
+							s.handleCommentsCreateRequest([1]string{
+								args[0],
+							}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, "GET,POST")
+						}
+
+						return
+					}
+					switch elem[0] {
+					case '/': // Prefix: "/"
+
+						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						// Param: "id"
+						// Leaf parameter, slashes are prohibited
+						idx := strings.IndexByte(elem, '/')
+						if idx >= 0 {
+							break
+						}
+						args[1] = elem
+						elem = ""
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "DELETE":
+								s.handleCommentsDeleteRequest([2]string{
+									args[0],
+									args[1],
+								}, elemIsEscaped, w, r)
+							case "GET":
+								s.handleCommentsReadRequest([2]string{
+									args[0],
+									args[1],
+								}, elemIsEscaped, w, r)
+							case "PUT":
+								s.handleCommentsUpdateRequest([2]string{
+									args[0],
+									args[1],
+								}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, "DELETE,GET,PUT")
+							}
+
+							return
+						}
+
+					}
+
+				}
 
 			}
 
@@ -124,7 +194,7 @@ type Route struct {
 	operationGroup string
 	pathPattern    string
 	count          int
-	args           [1]string
+	args           [2]string
 }
 
 // Name returns ogen operation name.
@@ -238,17 +308,16 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					break
 				}
 
-				// Param: "id"
-				// Leaf parameter, slashes are prohibited
+				// Param: "postId"
+				// Match until "/"
 				idx := strings.IndexByte(elem, '/')
-				if idx >= 0 {
-					break
+				if idx < 0 {
+					idx = len(elem)
 				}
-				args[0] = elem
-				elem = ""
+				args[0] = elem[:idx]
+				elem = elem[idx:]
 
 				if len(elem) == 0 {
-					// Leaf node.
 					switch method {
 					case "DELETE":
 						r.name = PostsDeleteOperation
@@ -280,6 +349,95 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					default:
 						return
 					}
+				}
+				switch elem[0] {
+				case '/': // Prefix: "/comments"
+
+					if l := len("/comments"); len(elem) >= l && elem[0:l] == "/comments" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						switch method {
+						case "GET":
+							r.name = CommentsListOperation
+							r.summary = ""
+							r.operationID = "Comments_list"
+							r.operationGroup = ""
+							r.pathPattern = "/posts/{postId}/comments"
+							r.args = args
+							r.count = 1
+							return r, true
+						case "POST":
+							r.name = CommentsCreateOperation
+							r.summary = ""
+							r.operationID = "Comments_create"
+							r.operationGroup = ""
+							r.pathPattern = "/posts/{postId}/comments"
+							r.args = args
+							r.count = 1
+							return r, true
+						default:
+							return
+						}
+					}
+					switch elem[0] {
+					case '/': // Prefix: "/"
+
+						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						// Param: "id"
+						// Leaf parameter, slashes are prohibited
+						idx := strings.IndexByte(elem, '/')
+						if idx >= 0 {
+							break
+						}
+						args[1] = elem
+						elem = ""
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "DELETE":
+								r.name = CommentsDeleteOperation
+								r.summary = ""
+								r.operationID = "Comments_delete"
+								r.operationGroup = ""
+								r.pathPattern = "/posts/{postId}/comments/{id}"
+								r.args = args
+								r.count = 2
+								return r, true
+							case "GET":
+								r.name = CommentsReadOperation
+								r.summary = ""
+								r.operationID = "Comments_read"
+								r.operationGroup = ""
+								r.pathPattern = "/posts/{postId}/comments/{id}"
+								r.args = args
+								r.count = 2
+								return r, true
+							case "PUT":
+								r.name = CommentsUpdateOperation
+								r.summary = ""
+								r.operationID = "Comments_update"
+								r.operationGroup = ""
+								r.pathPattern = "/posts/{postId}/comments/{id}"
+								r.args = args
+								r.count = 2
+								return r, true
+							default:
+								return
+							}
+						}
+
+					}
+
 				}
 
 			}

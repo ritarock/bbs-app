@@ -2,8 +2,6 @@ package handler
 
 import (
 	"context"
-	"net/http"
-	"strings"
 
 	"github.com/ritarock/bbs-app/application/dto"
 	"github.com/ritarock/bbs-app/application/usecase/post"
@@ -17,8 +15,6 @@ type PostHandler struct {
 	updatePostUsecase *post.UpdatePostUsecase
 	deletePostUsecase *post.DeletePostUsecase
 }
-
-var _ api.Handler = (*PostHandler)(nil)
 
 func NewPostHandler(
 	createPostUsecase *post.CreatePostUsecase,
@@ -118,29 +114,4 @@ func (p *PostHandler) PostsDelete(ctx context.Context, params api.PostsDeletePar
 	}
 
 	return p.deletePostUsecase.Execute(ctx, input)
-}
-
-func (p *PostHandler) NewError(ctx context.Context, err error) *api.ErrorStatusCode {
-	statusCode := http.StatusInternalServerError
-	message := "Internal Server Error"
-
-	if err != nil {
-		errMsg := err.Error()
-		switch {
-		case errMsg == "post not found":
-			statusCode = http.StatusNotFound
-			message = "Post not found"
-		case strings.Contains(errMsg, "title") || strings.Contains(errMsg, "content"):
-			statusCode = http.StatusBadRequest
-			message = errMsg
-		}
-	}
-
-	return &api.ErrorStatusCode{
-		StatusCode: statusCode,
-		Response: api.Error{
-			Code:    int32(statusCode),
-			Message: message,
-		},
-	}
 }

@@ -8,6 +8,13 @@ import (
 	"time"
 )
 
+type Comment struct {
+	ID          int64
+	PostID      int64
+	Body        string
+	CommentedAt time.Time
+}
+
 type Post struct {
 	ID       int64
 	Title    string

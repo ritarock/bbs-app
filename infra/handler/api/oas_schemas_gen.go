@@ -11,6 +11,87 @@ func (s *ErrorStatusCode) Error() string {
 	return fmt.Sprintf("code %d: %+v", s.StatusCode, s.Response)
 }
 
+// Ref: #/components/schemas/Comment
+type Comment struct {
+	ID          int64     `json:"id"`
+	PostId      int64     `json:"postId"`
+	Body        string    `json:"body"`
+	CommentedAt time.Time `json:"commentedAt"`
+}
+
+// GetID returns the value of ID.
+func (s *Comment) GetID() int64 {
+	return s.ID
+}
+
+// GetPostId returns the value of PostId.
+func (s *Comment) GetPostId() int64 {
+	return s.PostId
+}
+
+// GetBody returns the value of Body.
+func (s *Comment) GetBody() string {
+	return s.Body
+}
+
+// GetCommentedAt returns the value of CommentedAt.
+func (s *Comment) GetCommentedAt() time.Time {
+	return s.CommentedAt
+}
+
+// SetID sets the value of ID.
+func (s *Comment) SetID(val int64) {
+	s.ID = val
+}
+
+// SetPostId sets the value of PostId.
+func (s *Comment) SetPostId(val int64) {
+	s.PostId = val
+}
+
+// SetBody sets the value of Body.
+func (s *Comment) SetBody(val string) {
+	s.Body = val
+}
+
+// SetCommentedAt sets the value of CommentedAt.
+func (s *Comment) SetCommentedAt(val time.Time) {
+	s.CommentedAt = val
+}
+
+// Ref: #/components/schemas/CommentList
+type CommentList struct {
+	Items []Comment `json:"items"`
+}
+
+// GetItems returns the value of Items.
+func (s *CommentList) GetItems() []Comment {
+	return s.Items
+}
+
+// SetItems sets the value of Items.
+func (s *CommentList) SetItems(val []Comment) {
+	s.Items = val
+}
+
+// CommentsDeleteNoContent is response for CommentsDelete operation.
+type CommentsDeleteNoContent struct{}
+
+// Ref: #/components/schemas/CreateCommentRequest
+type CreateCommentRequest struct {
+	Body string `json:"body"`
+}
+
+// GetBody returns the value of Body.
+func (s *CreateCommentRequest) GetBody() string {
+	return s.Body
+}
+
+// SetBody sets the value of Body.
+func (s *CreateCommentRequest) SetBody(val string) {
+	s.Body = val
+}
+
 // Ref: #/components/schemas/CreatePostRequest
 type CreatePostRequest struct {
 	Title   string `json:"title"`
@@ -154,6 +235,21 @@ func (s *PostList) SetItems(val []Post) {
 
 // PostsDeleteNoContent is response for PostsDelete operation.
 type PostsDeleteNoContent struct{}
+
+// Ref: #/components/schemas/UpdateCommentRequest
+type UpdateCommentRequest struct {
+	Body string `json:"body"`
+}
+
+// GetBody returns the value of Body.
+func (s *UpdateCommentRequest) GetBody() string {
+	return s.Body
+}
+
+// SetBody sets the value of Body.
+func (s *UpdateCommentRequest) SetBody(val string) {
+	s.Body = val
+}
 
 // Ref: #/components/schemas/UpdatePostRequest
 type UpdatePostRequest struct {
