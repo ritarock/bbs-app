@@ -1,7 +1,7 @@
 ---
 description: BBS APIの動作確認を行う
 allowed-tools: Bash(curl:*)
-argument-hint: [endpoint] (posts | posts/:id | create | update | delete | comments | comment-create | comment-update | comment-delete)
+argument-hint: [endpoint] (posts | posts/:id | create | update | delete | comments | comment-create | comment-update | comment-delete | signup | signin | me)
 ---
 
 # BBS API 動作確認
@@ -72,6 +72,30 @@ curl -s -X PUT http://localhost:8080/posts/{postId}/comments/{id} \
 curl -s -X DELETE http://localhost:8080/posts/{postId}/comments/{id}
 ```
 
+---
+
+## 認証API
+
+### ユーザー登録 (signup)
+```bash
+curl -s -X POST http://localhost:8080/auth/signup \
+   -H "Content-Type: application/json" \
+   -d '{"email":"test@example.com","password":"password123"}' | jq .
+```
+
+### サインイン (signin)
+```bash
+curl -s -X POST http://localhost:8080/auth/signin \
+   -H "Content-Type: application/json" \
+   -d '{"email":"test@example.com","password":"password123"}' | jq .
+```
+
+### 現在のユーザー情報取得 (me)
+```bash
+curl -s http://localhost:8080/auth/me \
+   -H "Authorization: Bearer {token}" | jq .
+```
+
 ## タスク
 
 引数 `$ARGUMENTS` に基づいて、適切なAPIエンドポイントを実行してください。
@@ -89,5 +113,12 @@ curl -s -X DELETE http://localhost:8080/posts/{postId}/comments/{id}
 - `comment-create 1`: 投稿ID=1にテストコメントを作成
 - `comment-update 1 2`: 投稿ID=1のコメントID=2を更新
 - `comment-delete 1 2`: 投稿ID=1のコメントID=2を削除
+
+### 認証API
+- `signup`: テストユーザーを登録
+- `signup test2@example.com password456`: 指定したメールアドレスとパスワードで登録
+- `signin`: テストユーザーでサインイン
+- `signin test2@example.com password456`: 指定したメールアドレスとパスワードでサインイン
+- `me {token}`: トークンを使って現在のユーザー情報を取得
 
 結果を整形して表示し、レスポンスの内容を簡潔に説明してください。
