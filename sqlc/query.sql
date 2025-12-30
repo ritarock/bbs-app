@@ -53,3 +53,21 @@ WHERE id = ?
 -- name: DeleteComment :exec
 DELETE FROM comments
 WHERE id = ?
+;
+
+-- name: InsertUser :execresult
+INSERT INTO users (
+    email, password_hash, created_at
+) VALUES (
+    ?, ?, ?
+);
+
+-- name: SelectUserByEmail :one
+SELECT * FROM users
+WHERE email = ?
+;
+
+-- name: SelectUserByID :one
+SELECT * FROM users
+WHERE id = ?
+;

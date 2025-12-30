@@ -85,3 +85,40 @@ interface Comments {
     @statusCode statusCode: 204;
   } | Error;
 }
+
+// === Authentication ===
+model User {
+  id: int64;
+  @minLength(1) @maxLength(255) email: string;
+  createdAt: utcDateTime;
+}
+
+model AuthResponse {
+  user: User;
+  token: string;
+}
+
+model SignUpRequest {
+  @minLength(1) @maxLength(255) email: string;
+  @minLength(8) @maxLength(128) password: string;
+}
+
+model SignInRequest {
+  @minLength(1) @maxLength(255) email: string;
+  @minLength(8) @maxLength(128) password: string;
+}
+
+@route("/auth")
+interface Auth {
+  @route("/signup")
+  @post signup(@body body: SignUpRequest): {
+    @statusCode statusCode: 201;
+    @body body: AuthResponse;
+  } | Error;
+
+  @route("/signin")
+  @post signin(@body body: SignInRequest): AuthResponse | Error;
+
+  @route("/me")
+  @get me(@header Authorization: string): User | Error;
+}

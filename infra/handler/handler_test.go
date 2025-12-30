@@ -31,6 +31,30 @@ func TestHandler_NewError(t *testing.T) {
 			wantMessage:    "Comment not found",
 		},
 		{
+			name:           "user not found",
+			err:            errors.New("user not found"),
+			wantStatusCode: http.StatusNotFound,
+			wantMessage:    "User not found",
+		},
+		{
+			name:           "unauthorized",
+			err:            errors.New("unauthorized"),
+			wantStatusCode: http.StatusUnauthorized,
+			wantMessage:    "Unauthorized",
+		},
+		{
+			name:           "invalid email or password",
+			err:            errors.New("invalid email or password"),
+			wantStatusCode: http.StatusUnauthorized,
+			wantMessage:    "Invalid email or password",
+		},
+		{
+			name:           "user already exists",
+			err:            errors.New("user already exists"),
+			wantStatusCode: http.StatusConflict,
+			wantMessage:    "User already exists",
+		},
+		{
 			name:           "title validation error",
 			err:            errors.New("title must be between 1 and 30 characters"),
 			wantStatusCode: http.StatusBadRequest,
@@ -49,6 +73,18 @@ func TestHandler_NewError(t *testing.T) {
 			wantMessage:    "body must be at least 1 character",
 		},
 		{
+			name:           "email validation error",
+			err:            errors.New("email is required"),
+			wantStatusCode: http.StatusBadRequest,
+			wantMessage:    "email is required",
+		},
+		{
+			name:           "password validation error",
+			err:            errors.New("password must be at least 8 characters"),
+			wantStatusCode: http.StatusBadRequest,
+			wantMessage:    "password must be at least 8 characters",
+		},
+		{
 			name:           "unknown error",
 			err:            errors.New("database error"),
 			wantStatusCode: http.StatusInternalServerError,
@@ -60,7 +96,7 @@ func TestHandler_NewError(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			h := handler.NewHandler(nil, nil)
+			h := handler.NewHandler(nil, nil, nil)
 			got := h.NewError(context.Background(), test.err)
 
 			assert.Equal(t, test.wantStatusCode, got.StatusCode)

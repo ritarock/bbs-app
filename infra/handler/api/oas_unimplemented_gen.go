@@ -13,6 +13,27 @@ type UnimplementedHandler struct{}
 
 var _ Handler = UnimplementedHandler{}
 
+// AuthMe implements Auth_me operation.
+//
+// GET /auth/me
+func (UnimplementedHandler) AuthMe(ctx context.Context) (r *User, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// AuthSignin implements Auth_signin operation.
+//
+// POST /auth/signin
+func (UnimplementedHandler) AuthSignin(ctx context.Context, req *SignInRequest) (r *AuthResponse, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// AuthSignup implements Auth_signup operation.
+//
+// POST /auth/signup
+func (UnimplementedHandler) AuthSignup(ctx context.Context, req *SignUpRequest) (r *AuthResponse, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // CommentsCreate implements Comments_create operation.
 //
 // POST /posts/{postId}/comments

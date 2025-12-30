@@ -49,130 +49,232 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		switch elem[0] {
-		case '/': // Prefix: "/posts"
+		case '/': // Prefix: "/"
 
-			if l := len("/posts"); len(elem) >= l && elem[0:l] == "/posts" {
+			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
 				break
 			}
 
 			if len(elem) == 0 {
-				switch r.Method {
-				case "GET":
-					s.handlePostsListRequest([0]string{}, elemIsEscaped, w, r)
-				case "POST":
-					s.handlePostsCreateRequest([0]string{}, elemIsEscaped, w, r)
-				default:
-					s.notAllowed(w, r, "GET,POST")
-				}
-
-				return
+				break
 			}
 			switch elem[0] {
-			case '/': // Prefix: "/"
+			case 'a': // Prefix: "auth/"
 
-				if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+				if l := len("auth/"); len(elem) >= l && elem[0:l] == "auth/" {
 					elem = elem[l:]
 				} else {
 					break
 				}
 
-				// Param: "postId"
-				// Match until "/"
-				idx := strings.IndexByte(elem, '/')
-				if idx < 0 {
-					idx = len(elem)
-				}
-				args[0] = elem[:idx]
-				elem = elem[idx:]
-
 				if len(elem) == 0 {
-					switch r.Method {
-					case "DELETE":
-						s.handlePostsDeleteRequest([1]string{
-							args[0],
-						}, elemIsEscaped, w, r)
-					case "GET":
-						s.handlePostsReadRequest([1]string{
-							args[0],
-						}, elemIsEscaped, w, r)
-					case "PUT":
-						s.handlePostsUpdateRequest([1]string{
-							args[0],
-						}, elemIsEscaped, w, r)
-					default:
-						s.notAllowed(w, r, "DELETE,GET,PUT")
-					}
-
-					return
+					break
 				}
 				switch elem[0] {
-				case '/': // Prefix: "/comments"
+				case 'm': // Prefix: "me"
 
-					if l := len("/comments"); len(elem) >= l && elem[0:l] == "/comments" {
+					if l := len("me"); len(elem) >= l && elem[0:l] == "me" {
 						elem = elem[l:]
 					} else {
 						break
 					}
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch r.Method {
 						case "GET":
-							s.handleCommentsListRequest([1]string{
-								args[0],
-							}, elemIsEscaped, w, r)
-						case "POST":
-							s.handleCommentsCreateRequest([1]string{
-								args[0],
-							}, elemIsEscaped, w, r)
+							s.handleAuthMeRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET,POST")
+							s.notAllowed(w, r, "GET")
 						}
 
 						return
 					}
-					switch elem[0] {
-					case '/': // Prefix: "/"
 
-						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+				case 's': // Prefix: "sign"
+
+					if l := len("sign"); len(elem) >= l && elem[0:l] == "sign" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						break
+					}
+					switch elem[0] {
+					case 'i': // Prefix: "in"
+
+						if l := len("in"); len(elem) >= l && elem[0:l] == "in" {
 							elem = elem[l:]
 						} else {
 							break
 						}
 
-						// Param: "id"
-						// Leaf parameter, slashes are prohibited
-						idx := strings.IndexByte(elem, '/')
-						if idx >= 0 {
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "POST":
+								s.handleAuthSigninRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, "POST")
+							}
+
+							return
+						}
+
+					case 'u': // Prefix: "up"
+
+						if l := len("up"); len(elem) >= l && elem[0:l] == "up" {
+							elem = elem[l:]
+						} else {
 							break
 						}
-						args[1] = elem
-						elem = ""
 
 						if len(elem) == 0 {
 							// Leaf node.
 							switch r.Method {
-							case "DELETE":
-								s.handleCommentsDeleteRequest([2]string{
-									args[0],
-									args[1],
-								}, elemIsEscaped, w, r)
-							case "GET":
-								s.handleCommentsReadRequest([2]string{
-									args[0],
-									args[1],
-								}, elemIsEscaped, w, r)
-							case "PUT":
-								s.handleCommentsUpdateRequest([2]string{
-									args[0],
-									args[1],
-								}, elemIsEscaped, w, r)
+							case "POST":
+								s.handleAuthSignupRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "DELETE,GET,PUT")
+								s.notAllowed(w, r, "POST")
 							}
 
 							return
+						}
+
+					}
+
+				}
+
+			case 'p': // Prefix: "posts"
+
+				if l := len("posts"); len(elem) >= l && elem[0:l] == "posts" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					switch r.Method {
+					case "GET":
+						s.handlePostsListRequest([0]string{}, elemIsEscaped, w, r)
+					case "POST":
+						s.handlePostsCreateRequest([0]string{}, elemIsEscaped, w, r)
+					default:
+						s.notAllowed(w, r, "GET,POST")
+					}
+
+					return
+				}
+				switch elem[0] {
+				case '/': // Prefix: "/"
+
+					if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					// Param: "postId"
+					// Match until "/"
+					idx := strings.IndexByte(elem, '/')
+					if idx < 0 {
+						idx = len(elem)
+					}
+					args[0] = elem[:idx]
+					elem = elem[idx:]
+
+					if len(elem) == 0 {
+						switch r.Method {
+						case "DELETE":
+							s.handlePostsDeleteRequest([1]string{
+								args[0],
+							}, elemIsEscaped, w, r)
+						case "GET":
+							s.handlePostsReadRequest([1]string{
+								args[0],
+							}, elemIsEscaped, w, r)
+						case "PUT":
+							s.handlePostsUpdateRequest([1]string{
+								args[0],
+							}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, "DELETE,GET,PUT")
+						}
+
+						return
+					}
+					switch elem[0] {
+					case '/': // Prefix: "/comments"
+
+						if l := len("/comments"); len(elem) >= l && elem[0:l] == "/comments" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							switch r.Method {
+							case "GET":
+								s.handleCommentsListRequest([1]string{
+									args[0],
+								}, elemIsEscaped, w, r)
+							case "POST":
+								s.handleCommentsCreateRequest([1]string{
+									args[0],
+								}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, "GET,POST")
+							}
+
+							return
+						}
+						switch elem[0] {
+						case '/': // Prefix: "/"
+
+							if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+								elem = elem[l:]
+							} else {
+								break
+							}
+
+							// Param: "id"
+							// Leaf parameter, slashes are prohibited
+							idx := strings.IndexByte(elem, '/')
+							if idx >= 0 {
+								break
+							}
+							args[1] = elem
+							elem = ""
+
+							if len(elem) == 0 {
+								// Leaf node.
+								switch r.Method {
+								case "DELETE":
+									s.handleCommentsDeleteRequest([2]string{
+										args[0],
+										args[1],
+									}, elemIsEscaped, w, r)
+								case "GET":
+									s.handleCommentsReadRequest([2]string{
+										args[0],
+										args[1],
+									}, elemIsEscaped, w, r)
+								case "PUT":
+									s.handleCommentsUpdateRequest([2]string{
+										args[0],
+										args[1],
+									}, elemIsEscaped, w, r)
+								default:
+									s.notAllowed(w, r, "DELETE,GET,PUT")
+								}
+
+								return
+							}
+
 						}
 
 					}
@@ -267,115 +369,197 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			break
 		}
 		switch elem[0] {
-		case '/': // Prefix: "/posts"
+		case '/': // Prefix: "/"
 
-			if l := len("/posts"); len(elem) >= l && elem[0:l] == "/posts" {
+			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
 				break
 			}
 
 			if len(elem) == 0 {
-				switch method {
-				case "GET":
-					r.name = PostsListOperation
-					r.summary = ""
-					r.operationID = "Posts_list"
-					r.operationGroup = ""
-					r.pathPattern = "/posts"
-					r.args = args
-					r.count = 0
-					return r, true
-				case "POST":
-					r.name = PostsCreateOperation
-					r.summary = ""
-					r.operationID = "Posts_create"
-					r.operationGroup = ""
-					r.pathPattern = "/posts"
-					r.args = args
-					r.count = 0
-					return r, true
-				default:
-					return
-				}
+				break
 			}
 			switch elem[0] {
-			case '/': // Prefix: "/"
+			case 'a': // Prefix: "auth/"
 
-				if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+				if l := len("auth/"); len(elem) >= l && elem[0:l] == "auth/" {
 					elem = elem[l:]
 				} else {
 					break
 				}
 
-				// Param: "postId"
-				// Match until "/"
-				idx := strings.IndexByte(elem, '/')
-				if idx < 0 {
-					idx = len(elem)
-				}
-				args[0] = elem[:idx]
-				elem = elem[idx:]
-
 				if len(elem) == 0 {
-					switch method {
-					case "DELETE":
-						r.name = PostsDeleteOperation
-						r.summary = ""
-						r.operationID = "Posts_delete"
-						r.operationGroup = ""
-						r.pathPattern = "/posts/{id}"
-						r.args = args
-						r.count = 1
-						return r, true
-					case "GET":
-						r.name = PostsReadOperation
-						r.summary = ""
-						r.operationID = "Posts_read"
-						r.operationGroup = ""
-						r.pathPattern = "/posts/{id}"
-						r.args = args
-						r.count = 1
-						return r, true
-					case "PUT":
-						r.name = PostsUpdateOperation
-						r.summary = ""
-						r.operationID = "Posts_update"
-						r.operationGroup = ""
-						r.pathPattern = "/posts/{id}"
-						r.args = args
-						r.count = 1
-						return r, true
-					default:
-						return
-					}
+					break
 				}
 				switch elem[0] {
-				case '/': // Prefix: "/comments"
+				case 'm': // Prefix: "me"
 
-					if l := len("/comments"); len(elem) >= l && elem[0:l] == "/comments" {
+					if l := len("me"); len(elem) >= l && elem[0:l] == "me" {
 						elem = elem[l:]
 					} else {
 						break
 					}
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = CommentsListOperation
+							r.name = AuthMeOperation
 							r.summary = ""
-							r.operationID = "Comments_list"
+							r.operationID = "Auth_me"
 							r.operationGroup = ""
-							r.pathPattern = "/posts/{postId}/comments"
+							r.pathPattern = "/auth/me"
+							r.args = args
+							r.count = 0
+							return r, true
+						default:
+							return
+						}
+					}
+
+				case 's': // Prefix: "sign"
+
+					if l := len("sign"); len(elem) >= l && elem[0:l] == "sign" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						break
+					}
+					switch elem[0] {
+					case 'i': // Prefix: "in"
+
+						if l := len("in"); len(elem) >= l && elem[0:l] == "in" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "POST":
+								r.name = AuthSigninOperation
+								r.summary = ""
+								r.operationID = "Auth_signin"
+								r.operationGroup = ""
+								r.pathPattern = "/auth/signin"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+					case 'u': // Prefix: "up"
+
+						if l := len("up"); len(elem) >= l && elem[0:l] == "up" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "POST":
+								r.name = AuthSignupOperation
+								r.summary = ""
+								r.operationID = "Auth_signup"
+								r.operationGroup = ""
+								r.pathPattern = "/auth/signup"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+					}
+
+				}
+
+			case 'p': // Prefix: "posts"
+
+				if l := len("posts"); len(elem) >= l && elem[0:l] == "posts" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					switch method {
+					case "GET":
+						r.name = PostsListOperation
+						r.summary = ""
+						r.operationID = "Posts_list"
+						r.operationGroup = ""
+						r.pathPattern = "/posts"
+						r.args = args
+						r.count = 0
+						return r, true
+					case "POST":
+						r.name = PostsCreateOperation
+						r.summary = ""
+						r.operationID = "Posts_create"
+						r.operationGroup = ""
+						r.pathPattern = "/posts"
+						r.args = args
+						r.count = 0
+						return r, true
+					default:
+						return
+					}
+				}
+				switch elem[0] {
+				case '/': // Prefix: "/"
+
+					if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					// Param: "postId"
+					// Match until "/"
+					idx := strings.IndexByte(elem, '/')
+					if idx < 0 {
+						idx = len(elem)
+					}
+					args[0] = elem[:idx]
+					elem = elem[idx:]
+
+					if len(elem) == 0 {
+						switch method {
+						case "DELETE":
+							r.name = PostsDeleteOperation
+							r.summary = ""
+							r.operationID = "Posts_delete"
+							r.operationGroup = ""
+							r.pathPattern = "/posts/{id}"
 							r.args = args
 							r.count = 1
 							return r, true
-						case "POST":
-							r.name = CommentsCreateOperation
+						case "GET":
+							r.name = PostsReadOperation
 							r.summary = ""
-							r.operationID = "Comments_create"
+							r.operationID = "Posts_read"
 							r.operationGroup = ""
-							r.pathPattern = "/posts/{postId}/comments"
+							r.pathPattern = "/posts/{id}"
+							r.args = args
+							r.count = 1
+							return r, true
+						case "PUT":
+							r.name = PostsUpdateOperation
+							r.summary = ""
+							r.operationID = "Posts_update"
+							r.operationGroup = ""
+							r.pathPattern = "/posts/{id}"
 							r.args = args
 							r.count = 1
 							return r, true
@@ -384,56 +568,91 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 					switch elem[0] {
-					case '/': // Prefix: "/"
+					case '/': // Prefix: "/comments"
 
-						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+						if l := len("/comments"); len(elem) >= l && elem[0:l] == "/comments" {
 							elem = elem[l:]
 						} else {
 							break
 						}
 
-						// Param: "id"
-						// Leaf parameter, slashes are prohibited
-						idx := strings.IndexByte(elem, '/')
-						if idx >= 0 {
-							break
-						}
-						args[1] = elem
-						elem = ""
-
 						if len(elem) == 0 {
-							// Leaf node.
 							switch method {
-							case "DELETE":
-								r.name = CommentsDeleteOperation
-								r.summary = ""
-								r.operationID = "Comments_delete"
-								r.operationGroup = ""
-								r.pathPattern = "/posts/{postId}/comments/{id}"
-								r.args = args
-								r.count = 2
-								return r, true
 							case "GET":
-								r.name = CommentsReadOperation
+								r.name = CommentsListOperation
 								r.summary = ""
-								r.operationID = "Comments_read"
+								r.operationID = "Comments_list"
 								r.operationGroup = ""
-								r.pathPattern = "/posts/{postId}/comments/{id}"
+								r.pathPattern = "/posts/{postId}/comments"
 								r.args = args
-								r.count = 2
+								r.count = 1
 								return r, true
-							case "PUT":
-								r.name = CommentsUpdateOperation
+							case "POST":
+								r.name = CommentsCreateOperation
 								r.summary = ""
-								r.operationID = "Comments_update"
+								r.operationID = "Comments_create"
 								r.operationGroup = ""
-								r.pathPattern = "/posts/{postId}/comments/{id}"
+								r.pathPattern = "/posts/{postId}/comments"
 								r.args = args
-								r.count = 2
+								r.count = 1
 								return r, true
 							default:
 								return
 							}
+						}
+						switch elem[0] {
+						case '/': // Prefix: "/"
+
+							if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+								elem = elem[l:]
+							} else {
+								break
+							}
+
+							// Param: "id"
+							// Leaf parameter, slashes are prohibited
+							idx := strings.IndexByte(elem, '/')
+							if idx >= 0 {
+								break
+							}
+							args[1] = elem
+							elem = ""
+
+							if len(elem) == 0 {
+								// Leaf node.
+								switch method {
+								case "DELETE":
+									r.name = CommentsDeleteOperation
+									r.summary = ""
+									r.operationID = "Comments_delete"
+									r.operationGroup = ""
+									r.pathPattern = "/posts/{postId}/comments/{id}"
+									r.args = args
+									r.count = 2
+									return r, true
+								case "GET":
+									r.name = CommentsReadOperation
+									r.summary = ""
+									r.operationID = "Comments_read"
+									r.operationGroup = ""
+									r.pathPattern = "/posts/{postId}/comments/{id}"
+									r.args = args
+									r.count = 2
+									return r, true
+								case "PUT":
+									r.name = CommentsUpdateOperation
+									r.summary = ""
+									r.operationID = "Comments_update"
+									r.operationGroup = ""
+									r.pathPattern = "/posts/{postId}/comments/{id}"
+									r.args = args
+									r.count = 2
+									return r, true
+								default:
+									return
+								}
+							}
+
 						}
 
 					}

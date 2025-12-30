@@ -11,6 +11,32 @@ func (s *ErrorStatusCode) Error() string {
 	return fmt.Sprintf("code %d: %+v", s.StatusCode, s.Response)
 }
 
+// Ref: #/components/schemas/AuthResponse
+type AuthResponse struct {
+	User  User   `json:"user"`
+	Token string `json:"token"`
+}
+
+// GetUser returns the value of User.
+func (s *AuthResponse) GetUser() User {
+	return s.User
+}
+
+// GetToken returns the value of Token.
+func (s *AuthResponse) GetToken() string {
+	return s.Token
+}
+
+// SetUser sets the value of User.
+func (s *AuthResponse) SetUser(val User) {
+	s.User = val
+}
+
+// SetToken sets the value of Token.
+func (s *AuthResponse) SetToken(val string) {
+	s.Token = val
+}
+
 // Ref: #/components/schemas/Comment
 type Comment struct {
 	ID          int64     `json:"id"`
@@ -236,6 +262,58 @@ func (s *PostList) SetItems(val []Post) {
 // PostsDeleteNoContent is response for PostsDelete operation.
 type PostsDeleteNoContent struct{}
 
+// Ref: #/components/schemas/SignInRequest
+type SignInRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+// GetEmail returns the value of Email.
+func (s *SignInRequest) GetEmail() string {
+	return s.Email
+}
+
+// GetPassword returns the value of Password.
+func (s *SignInRequest) GetPassword() string {
+	return s.Password
+}
+
+// SetEmail sets the value of Email.
+func (s *SignInRequest) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetPassword sets the value of Password.
+func (s *SignInRequest) SetPassword(val string) {
+	s.Password = val
+}
+
+// Ref: #/components/schemas/SignUpRequest
+type SignUpRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+// GetEmail returns the value of Email.
+func (s *SignUpRequest) GetEmail() string {
+	return s.Email
+}
+
+// GetPassword returns the value of Password.
+func (s *SignUpRequest) GetPassword() string {
+	return s.Password
+}
+
+// SetEmail sets the value of Email.
+func (s *SignUpRequest) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetPassword sets the value of Password.
+func (s *SignUpRequest) SetPassword(val string) {
+	s.Password = val
+}
+
 // Ref: #/components/schemas/UpdateCommentRequest
 type UpdateCommentRequest struct {
 	Body string `json:"body"`
@@ -275,4 +353,41 @@ func (s *UpdatePostRequest) SetTitle(val string) {
 // SetContent sets the value of Content.
 func (s *UpdatePostRequest) SetContent(val string) {
 	s.Content = val
+}
+
+// Ref: #/components/schemas/User
+type User struct {
+	ID        int64     `json:"id"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"createdAt"`
+}
+
+// GetID returns the value of ID.
+func (s *User) GetID() int64 {
+	return s.ID
+}
+
+// GetEmail returns the value of Email.
+func (s *User) GetEmail() string {
+	return s.Email
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *User) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *User) SetID(val int64) {
+	s.ID = val
+}
+
+// SetEmail sets the value of Email.
+func (s *User) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *User) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
 }

@@ -8,6 +8,18 @@ import (
 
 // Handler handles operations described by OpenAPI v3 specification.
 type Handler interface {
+	// AuthMe implements Auth_me operation.
+	//
+	// GET /auth/me
+	AuthMe(ctx context.Context) (*User, error)
+	// AuthSignin implements Auth_signin operation.
+	//
+	// POST /auth/signin
+	AuthSignin(ctx context.Context, req *SignInRequest) (*AuthResponse, error)
+	// AuthSignup implements Auth_signup operation.
+	//
+	// POST /auth/signup
+	AuthSignup(ctx context.Context, req *SignUpRequest) (*AuthResponse, error)
 	// CommentsCreate implements Comments_create operation.
 	//
 	// POST /posts/{postId}/comments

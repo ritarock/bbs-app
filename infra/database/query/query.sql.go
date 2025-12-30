@@ -73,6 +73,26 @@ func (q *Queries) InsertPost(ctx context.Context, arg InsertPostParams) (sql.Res
 	return q.db.ExecContext(ctx, insertPost, arg.Title, arg.Content, arg.PostedAt)
 }
 
+const insertUser = `-- name: InsertUser :execresult
+;
+
+INSERT INTO users (
+    email, password_hash, created_at
+) VALUES (
+    ?, ?, ?
+)
+`
+
+type InsertUserParams struct {
+	Email        string
+	PasswordHash string
+	CreatedAt    time.Time
+}
+
+func (q *Queries) InsertUser(ctx context.Context, arg InsertUserParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, insertUser, arg.Email, arg.PasswordHash, arg.CreatedAt)
+}
+
 const selectComment = `-- name: SelectComment :one
 SELECT id, post_id, body, commented_at FROM comments
 WHERE id = ?
@@ -176,6 +196,42 @@ func (q *Queries) SelectPosts(ctx context.Context) ([]Post, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const selectUserByEmail = `-- name: SelectUserByEmail :one
+SELECT id, email, password_hash, created_at FROM users
+WHERE email = ?
+`
+
+func (q *Queries) SelectUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, selectUserByEmail, email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.PasswordHash,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const selectUserByID = `-- name: SelectUserByID :one
+;
+
+SELECT id, email, password_hash, created_at FROM users
+WHERE id = ?
+`
+
+func (q *Queries) SelectUserByID(ctx context.Context, id int64) (User, error) {
+	row := q.db.QueryRowContext(ctx, selectUserByID, id)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.PasswordHash,
+		&i.CreatedAt,
+	)
+	return i, err
 }
 
 const updateComment = `-- name: UpdateComment :exec
