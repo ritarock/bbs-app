@@ -3,6 +3,7 @@
 - Golang
 - sqlc
 - TypeSpec
+- ogen
 - Bun
 - Orval
 - React
